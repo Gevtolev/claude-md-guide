@@ -1,0 +1,45 @@
+# 空目录跑 /bootstrap-docs（greenfield 路径）的期望产出
+
+## 期望创建的文件（9 个顶层 + 1 个项目级 skill = 10）
+
+CLAUDE.md
+ARCHITECTURE.md
+AGENTS.md
+docs/handover/README.md
+docs/insights/README.md
+docs/research/README.md
+docs/exec-plans/README.md
+docs/exec-plans/tech-debt-tracker.md
+docs/exec-plans/exec-plan-template.md
+.claude/skills/maintain-claude-docs/SKILL.md
+
+## 每个文件必含的关键标记
+
+- CLAUDE.md：包含 `## 改动自查` 和 `## 文档` 两节
+- ARCHITECTURE.md：包含 `## 目录结构` 和 `## 技术栈` 两节
+- AGENTS.md：包含 `{{COPY_OF_CLAUDE_MD}}` 或等效内容
+- docs/handover/README.md：标题含 "Handover"，出现 "insights" 反链
+- docs/insights/README.md：标题含 "产品思考"，出现 "handover" 反链
+- docs/research/README.md：标题含 "Research"
+- docs/exec-plans/README.md：出现 "active"、"completed"、"tech-debt-tracker" 三个关键词
+- .claude/skills/maintain-claude-docs/SKILL.md：
+  - frontmatter 含 `name: maintain-claude-docs`
+  - description 以 `Use when` 起手
+  - body 含至少 6 项编号检查清单
+
+## 手动验证流程
+
+1. 把 skill 装到 `~/.claude/skills/bootstrap-claude-docs` + `~/.claude/commands/bootstrap-docs.md`
+2. `cd tests/fixtures/empty`
+3. 在新 Claude Code 会话里跑 `/bootstrap-docs`
+4. 按 Phase 0/1/2/3 检查点回答
+5. 跑 `ls -R` 对照上方清单
+6. 跑 `grep -l '改动自查' CLAUDE.md && grep -l '目录结构' ARCHITECTURE.md && grep -l 'maintain-claude-docs' .claude/skills/maintain-claude-docs/SKILL.md`
+
+## 清理
+
+手动跑完后：
+```bash
+cd tests/fixtures/empty
+find . ! -name '.gitkeep' ! -name 'expected-structure.txt' ! -name '.' -exec rm -rf {} + 2>/dev/null || true
+```
