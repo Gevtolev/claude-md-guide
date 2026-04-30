@@ -1,0 +1,37 @@
+# Exec Plans / 执行计划
+
+中大型功能的执行计划，包含分阶段目标、进度状态和决策日志。
+
+**AI 须知：**
+- 新建执行计划放在 `active/`，完成后移至 `completed/`
+- 纯调研放 `../research/`
+- 修改或新增文件后更新下方索引
+
+## 什么时候需要执行计划
+
+- 涉及数据库 schema 变更
+- 跨 3 个以上模块的功能
+- 需要分阶段交付的中大型功能
+- 重构或迁移类任务
+
+## 执行计划模板
+
+见 [exec-plan-template.md](./exec-plan-template.md)。
+
+## 索引
+
+### Active
+
+| 文件 | 主题 | 状态 |
+|------|------|------|
+{{ACTIVE_PLANS_INDEX}}
+
+### Completed
+
+| 文件 | 主题 | 完成日期 |
+|------|------|----------|
+{{COMPLETED_PLANS_INDEX}}
+
+## 技术债务
+
+见 [tech-debt-tracker.md](./tech-debt-tracker.md)。
