@@ -1,5 +1,111 @@
 # claude-md-guide
 
-> bootstrap-claude-docs — 为项目构建可落地、可维护的 Claude Code 文档体系
+> 为项目搭建可落地、可维护的 Claude Code 文档体系。
+> 比内置 `/init` 产出更完整：CLAUDE.md / ARCHITECTURE.md / AGENTS.md / docs/ + 项目级维护 skill。
 
-（详细使用说明在 T16 补全）
+## 这个仓库提供什么
+
+- **`bootstrap-claude-docs` skill** — 三阶段三检查点流程，把一个项目（空的 / 已有代码的 / 已有旧 CLAUDE.md 的）引导成一整套文档体系
+- **`/bootstrap-docs` slash command** — skill 的命令入口
+- **5 条可移植设计原则** — 关注点分离 / 双视角文档 / 自维护索引 / 计划驱动 / 自检纪律
+- **7 种项目类型变体** — Web / CLI / Library / Service / Monorepo / Mobile / Data
+- **10 个模板 + 3 份样例** — 拿去就能填
+
+## 产出什么
+
+在目标项目里生成：
+
+```
+项目根/
+├── CLAUDE.md                                   # 规则、流程、改动自查
+├── ARCHITECTURE.md                             # 结构、数据流、技术栈
+├── AGENTS.md                                   # CLAUDE.md 的镜像（给非 Claude 的 AI）
+├── docs/
+│   ├── handover/README.md                      # 技术交接索引
+│   ├── insights/README.md                      # 产品思考索引（与 handover 反链）
+│   ├── research/README.md                      # 调研索引
+│   └── exec-plans/
+│       ├── README.md                           # 执行计划索引
+│       ├── tech-debt-tracker.md                # 技术债务追踪
+│       └── exec-plan-template.md               # 执行计划模板
+└── .claude/skills/maintain-claude-docs/
+    └── SKILL.md                                # 项目级维护 skill —— 每次相关改动自动提醒同步文档
+```
+
+最后那个「项目级维护 skill」是核心创新：CLAUDE.md 是静态规则文件，在长对话里偶尔被埋；项目级 skill 有 description 自动触发机制，形成静动双份冗余。
+
+## 安装
+
+### 方式 1：手动拷贝（最稳）
+
+```bash
+git clone https://github.com/YOUR_USER/claude-md-guide.git
+cd claude-md-guide
+cp -r skills/bootstrap-claude-docs ~/.claude/skills/
+cp commands/bootstrap-docs.md ~/.claude/commands/
+```
+
+### 方式 2：Symlink（开发者，改源即生效）
+
+```bash
+git clone https://github.com/YOUR_USER/claude-md-guide.git
+cd claude-md-guide
+ln -sfn "$PWD/skills/bootstrap-claude-docs" ~/.claude/skills/bootstrap-claude-docs
+ln -sf  "$PWD/commands/bootstrap-docs.md"   ~/.claude/commands/bootstrap-docs.md
+```
+
+### 方式 3：让 Claude 帮你装
+
+```bash
+git clone https://github.com/YOUR_USER/claude-md-guide.git
+```
+
+clone 后进入仓库，跟 Claude Code 说："帮我安装这个仓库里的 skill 到 `~/.claude/skills/`"。Claude 会读 README 并自动拷贝。
+
+## 使用
+
+进入要搭文档体系的项目：
+
+```bash
+cd ~/projects/your-project
+```
+
+在 Claude Code 里输入 slash command：
+
+```
+/bootstrap-docs
+```
+
+或者用自然语言："帮我为这个项目搭一套 Claude Code 文档体系"。
+
+接下来会走三阶段：
+
+| Phase | 做什么 | 你要做什么 |
+|-------|--------|----------|
+| 0 | 检测项目状态，告诉你走哪条路径（greenfield / complete / restructure） | 确认路径 |
+| 1 | 扫描代码，识别项目类型，列假设清单 | 审阅假设，修正错误推断 |
+| 2 | 按模板生成骨架到 `.claude-docs-staging/` | 审阅 staging，确认后 skill 原子 mv 到正式位置 |
+| 3 | 深填 ARCHITECTURE 的真实数据，校验双链与索引 | 最终确认 |
+
+每个检查点都会停下等你确认——不会一把梭哈。
+
+## 和相邻工具的关系
+
+| 工具 | 职责 | 关系 |
+|------|------|------|
+| Claude Code 内置 `/init` | 生成单 CLAUDE.md | 本 skill 是升级版（体系化） |
+| [`claude-md-improver`](https://github.com/anthropics/claude-plugins-official) | 审计已有 CLAUDE.md | 互补：本 skill 建造，它体检 |
+| 本 skill 生成的项目级 `maintain-claude-docs` | 日常维护提醒 | 本 skill 的产物，长期生效 |
+
+## 进一步阅读
+
+- [docs/design.md](./docs/design.md) — 完整设计文档（理念、架构、决策日志）
+- [docs/plan.md](./docs/plan.md) — 实现计划（17 task）
+- [skills/bootstrap-claude-docs/SKILL.md](./skills/bootstrap-claude-docs/SKILL.md) — skill 主流程
+- [skills/bootstrap-claude-docs/references/design-philosophy.md](./skills/bootstrap-claude-docs/references/design-philosophy.md) — 5 大设计哲学详述
+- [skills/bootstrap-claude-docs/references/project-type-variants.md](./skills/bootstrap-claude-docs/references/project-type-variants.md) — 7 种项目类型适配
+- [skills/bootstrap-claude-docs/references/sample-CLAUDE.md](./skills/bootstrap-claude-docs/references/sample-CLAUDE.md) / [sample-ARCHITECTURE.md](./skills/bootstrap-claude-docs/references/sample-ARCHITECTURE.md) / [sample-handover.md](./skills/bootstrap-claude-docs/references/sample-handover.md) — 去标识化样例
+
+## License
+
+MIT — 见 [LICENSE](./LICENSE)。
