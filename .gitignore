@@ -1,0 +1,6 @@
+.DS_Store
+*.bak.*
+.claude-docs-staging/
+node_modules/
+.idea/
+.vscode/
