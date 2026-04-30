@@ -1,0 +1,42 @@
+# CLAUDE.md
+
+{{PROJECT_NAME}} — {{ONE_LINE_DESCRIPTION}}
+
+> 架构细节见 [ARCHITECTURE.md](./ARCHITECTURE.md)。本文件只含规则与流程。
+
+## 开发规则
+
+{{DEV_RULES_SECTION}}
+<!-- TODO: 列出本项目特有的开发规则。例：提交前必须跑 X / UI 改动必须 Y / 新功能必须 Z -->
+
+## 自检命令
+
+{{SELF_CHECK_COMMANDS}}
+<!-- TODO: 列出本地可跑的检查命令，按耗时由短到长排序 -->
+
+## 改动自查
+
+完成代码修改后，在提交前确认：
+
+{{CHANGE_REVIEW_CHECKLIST}}
+<!-- TODO: 5-8 条本项目专属的自查项。参考样例：
+1. 改动是否涉及类型 → 是否需要更新 `src/types/`
+2. 改动是否涉及 schema → 是否需要更新迁移
+3. 改动是否涉及国际化 → 是否需要同步翻译文件
+4. 改动是否涉及文档 → 是否需要同步 docs/handover/
+-->
+
+## 工作流
+
+{{WORKFLOW_SECTION}}
+<!-- TODO: 描述本项目的标准开发工作流 -->
+
+## 文档
+
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — 项目架构、目录结构、数据流
+- `docs/handover/` — 技术交接文档（架构、数据流、设计决策）
+- `docs/insights/` — 产品思考文档（用户问题、设计理由）
+- `docs/research/` — 调研文档（技术方案、可行性分析）
+- `docs/exec-plans/` — 执行计划（进度状态、决策日志、技术债务）
+
+**检索前先读对应目录的 README.md；增删文件后更新索引。**
