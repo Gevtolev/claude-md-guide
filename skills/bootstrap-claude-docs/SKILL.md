@@ -38,11 +38,15 @@ description: |
 完整自检见 `references/phase-1-checklist.md`。
 
 **Phase 2 — 骨架生成**（写到 `.claude-docs-staging/`）
-按项目类型选模板（见 `references/project-type-variants.md`），实例化 10 个 `templates/*.tmpl`：
-顶层 `CLAUDE.md`/`ARCHITECTURE.md`/`AGENTS.md`、4 个 `docs/<dir>/README.md`、2 个 exec-plan 辅助、
-**项目级 `.claude/skills/maintain-claude-docs/SKILL.md`**（核心创新）。
+按项目类型选模板（见 `references/project-type-variants.md`），实例化 9 个 `templates/*.tmpl`：
+顶层 `CLAUDE.md`/`ARCHITECTURE.md`/`AGENTS.md`、4 个 `docs/<dir>/README.md`、2 个 exec-plan 辅助。
 ✋ 检查点 2：用户审阅 staging → 确认后原子 mv 到正式位置。
 完整自检见 `references/phase-2-checklist.md`。
+
+**Phase 2.5 — 生成项目级维护 skill**（核心创新）
+实例化 `templates/maintain-claude-docs-SKILL.md.tmpl` → `.claude/skills/maintain-claude-docs/SKILL.md`。
+description 按类型定制（见 `references/project-type-variants.md`），body 含 6 项清单，
+让后续改动自动维护文档。
 
 **Phase 3 — 深度填充与验证**
 对用户标注的章节读源码深推；ARCHITECTURE 真实化；双链与索引校验。
