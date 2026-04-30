@@ -1,0 +1,50 @@
+---
+name: maintain-claude-docs
+description: |
+  {{TYPE_SPECIFIC_TRIGGER_SENTENCE}}
+  Reminds Claude to keep the documentation system in sync (handover docs, insights docs,
+  README indexes, tech debt tracker, exec-plans). Use also when user mentions
+  "更新文档", "doc maintenance", or finishes a substantive change.
+---
+
+# Maintain Claude Docs
+
+确保本项目的文档体系与代码改动同步演进。
+
+## When to Use
+
+- 完成一个新功能或重要修改后
+- 完成或更新 `docs/exec-plans/active/<topic>.md` 后
+- 发现技术债务后
+- 修改了 `src/` 中的关键模块后
+- 用户主动要求"更新文档"
+
+## When to Skip
+
+- 仅修改注释、格式化、变量名
+- 仅修文档拼写错误
+- 修复明确不影响行为的 bug
+
+## Maintenance Checklist
+
+完成本次改动后，逐项检查：
+
+1. **是否构成新功能？** → 是否需要写 `docs/handover/<feature>.md`？
+2. **是否涉及产品决策？** → 是否需要写 `docs/insights/<feature>.md`？两份文档文件名一致并互相反链了吗？
+3. **是否增删了文档文件？** → 对应 `docs/<dir>/README.md` 索引同步了吗？
+4. **是否发现了技术债务？** → 已添加到 `docs/exec-plans/tech-debt-tracker.md` 了吗？
+5. **是否在做中大型功能？** → 已起 `docs/exec-plans/active/<topic>.md` 了吗？
+6. **是否完成了 exec-plan？** → 已移到 `docs/exec-plans/completed/` 了吗？
+
+## How to Apply
+
+针对清单中需要补做的项，提示用户并按序补齐。每补完一项标注 ✅ 给用户看。
+
+## Project-Specific Hints
+
+{{PROJECT_SPECIFIC_HINTS}}
+<!-- TODO: bootstrap 时根据项目类型填充。例：
+- Web 应用：API 改动是否同步了 OpenAPI 文档？
+- CLI 工具：新命令是否更新了 README 命令表？
+- 库：API 改动是否标记了 SemVer 影响等级？
+-->
