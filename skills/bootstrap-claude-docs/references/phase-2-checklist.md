@@ -2,7 +2,7 @@
 
 > 本 checklist 在 Phase 2 末尾执行；全部通过 + 用户审阅 staging 后，才能 mv 到正式位置。
 
-## 文件存在性（写到 .claude-docs-staging/）
+## 文件存在性（以下路径均以 `.claude-docs-staging/` 为根）
 
 - [ ] `CLAUDE.md`
 - [ ] `ARCHITECTURE.md`

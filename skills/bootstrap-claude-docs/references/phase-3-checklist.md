@@ -12,6 +12,7 @@
 
 - [ ] 每个 `docs/<dir>/README.md` 的索引表与该目录实际文件对齐（无遗漏、无幻觉）
 - [ ] 若已有 handover 文档：对应 insights 文件名一致，且互相反向链接
+- [ ] handover/ 和 insights/ 为空时，两份 README 的索引表已显式标注为空（而非遗漏该节）
 - [ ] CLAUDE.md 文档索引节的链接全部存在且可点击
 
 ## 维护 skill 健全
@@ -24,3 +25,4 @@
 - [ ] 已打印「使用指南」卡片：日常该往哪写什么、维护 skill 何时触发
 - [ ] `.claude-docs-staging/` 已清理
 - [ ] 无原文件被覆盖（重构路径除外，且备份已存在）
+- [ ] （仅 restructure 路径）`CLAUDE.md.bak.<ts>` 存在；所有从旧 CLAUDE.md 迁出的段落都有去向标注
