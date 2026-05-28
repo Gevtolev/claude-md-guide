@@ -35,6 +35,7 @@ description: |
 4. **是否发现了技术债务？** → 已添加到 `docs/exec-plans/tech-debt-tracker.md` 了吗？
 5. **是否在做中大型功能？** → 已起 `docs/exec-plans/active/<topic>.md` 了吗？
 6. **是否完成了 exec-plan？** → 已移到 `docs/exec-plans/completed/` 了吗？
+7. **季度审计**：CLAUDE.md 中是否有因模型/工具演进而过时的规则？每 3 个月回顾一次，移除已不需要的约束。
 
 ## How to Apply
 
@@ -47,4 +48,6 @@ description: |
 - Web 应用：API 改动是否同步了 OpenAPI 文档？
 - CLI 工具：新命令是否更新了 README 命令表？
 - 库：API 改动是否标记了 SemVer 影响等级？
+- Monorepo：新增子包后是否同步了子包 CLAUDE.md？
+- 所有类型：.claudeignore 是否需要更新（新增了生成文件/大型资产）？
 -->

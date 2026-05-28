@@ -110,7 +110,14 @@
 3. 发布流（独立发布 vs 统一发布）
 
 ### docs/ 调整
-顶层全 4 类；建议每个 package 一份轻量 CLAUDE.md（指向根 CLAUDE.md + 自己的特殊点）。
+顶层全 4 类；每个 package 生成一份子包级 CLAUDE.md（模板：`templates/sub-package-CLAUDE.md.tmpl`），
+含该子包的职责、专属 dev 命令、本地约定、关键入口。Claude 进入子目录时自动加载——
+这是文章 "Scoping test and lint commands per subdirectory" 最佳实践的落地。
+
+### Phase 2 额外步骤（monorepo 专属）
+1. 识别所有 workspace packages（从 `workspaces` / `pnpm-workspace.yaml` 等读取）
+2. 每个 package 目录生成 `CLAUDE.md`（用 `sub-package-CLAUDE.md.tmpl`）
+3. 根 ARCHITECTURE.md `## 目录结构` 里列出每个 package 一句话职责
 
 ### maintain-claude-docs description 起手
 `Use when adding a package, changing workspace dependencies, or modifying the release flow...`

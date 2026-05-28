@@ -38,8 +38,9 @@ description: |
 完整自检见 `references/phase-1-checklist.md`。
 
 **Phase 2 — 骨架生成**（写到 `.claude-docs-staging/`）
-按项目类型选模板（见 `references/project-type-variants.md`），实例化 9 个 `templates/*.tmpl`：
+按项目类型选模板（见 `references/project-type-variants.md`），实例化 `templates/*.tmpl`：
 顶层 `CLAUDE.md`/`ARCHITECTURE.md`/`AGENTS.md`、4 个 `docs/<dir>/README.md`、2 个 exec-plan 辅助。
+可选：生成 `.claudeignore`（排除构建产物/依赖目录）。Monorepo 另为每个子包生成 `CLAUDE.md`。
 ✋ 检查点 2：用户审阅 staging → 确认后原子 mv 到正式位置。
 完整自检见 `references/phase-2-checklist.md`。
 

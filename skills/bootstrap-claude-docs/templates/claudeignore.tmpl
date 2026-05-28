@@ -1,0 +1,45 @@
+# .claudeignore — 排除 Claude Code 不需要扫描的文件/目录
+# 语法同 .gitignore。减少噪音 = Claude 更快找到相关代码。
+
+# 依赖目录
+node_modules/
+vendor/
+.venv/
+__pycache__/
+
+# 构建产物
+dist/
+build/
+out/
+.next/
+target/
+
+# 生成文件
+*.min.js
+*.min.css
+*.map
+*.lock
+
+# 大型资产
+*.png
+*.jpg
+*.gif
+*.svg
+*.ico
+*.woff
+*.woff2
+*.ttf
+*.eot
+
+# IDE / 编辑器
+.idea/
+.vscode/
+*.swp
+
+# 测试覆盖率 & 报告
+coverage/
+.nyc_output/
+htmlcov/
+
+{{ADDITIONAL_IGNORES}}
+<!-- TODO: 根据项目实际情况增删。原则：排除"Claude 读了也无法从中获得有用信息"的文件 -->

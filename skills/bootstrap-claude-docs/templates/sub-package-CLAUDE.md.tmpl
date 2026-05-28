@@ -1,0 +1,37 @@
+# {{PACKAGE_NAME}}
+
+> 本文件是子包级 CLAUDE.md，Claude 进入此目录时自动加载。根级 CLAUDE.md 的全局规则仍然生效。
+
+## 职责
+
+{{PACKAGE_RESPONSIBILITY}}
+<!-- TODO: 1-2 句话描述此子包在 monorepo 里的角色 -->
+
+## 开发命令
+
+```bash
+{{DEV_COMMANDS}}
+```
+<!-- TODO: 列出本子包专属的 build/test/lint 命令。例：
+pnpm test            # 单元测试
+pnpm build           # 构建本包
+pnpm lint            # lint 本包
+-->
+
+## 本地约定
+
+{{LOCAL_CONVENTIONS}}
+<!-- TODO: 仅写和根级不同的约定。例：
+- 本包使用 Vitest 而非 Jest
+- 导出类型统一放 src/types.ts
+- 本包禁止直接依赖 @scope/internal-xxx
+-->
+
+## 关键入口
+
+{{KEY_ENTRY_POINTS}}
+<!-- TODO: 列出 2-5 个最重要的文件/目录，帮 Claude 快速定位。例：
+- src/index.ts — 公共 API 导出
+- src/core/ — 核心逻辑
+- tests/ — 测试目录
+-->
