@@ -3,7 +3,7 @@ name: bootstrap-claude-docs
 description: |
   Use when initializing, creating, restructuring, or scaffolding a project's documentation
   system for Claude Code — covering CLAUDE.md, ARCHITECTURE.md, AGENTS.md, and docs/
-  subdirectories with handover/insights/research/exec-plans. Use when user says: 初始化文档体系,
+  subdirectories with decisions/insights/research/exec-plans. Use when user says: 初始化文档体系,
   搭建 CLAUDE.md 体系, 建立项目文档框架, bootstrap project docs, scaffold CLAUDE.md system.
   Use also when /init output feels too thin or when an existing CLAUDE.md needs restructuring
   into a multi-file system.
@@ -39,7 +39,7 @@ description: |
 
 **Phase 2 — 骨架生成**（写到 `.claude-docs-staging/`）
 按项目类型选模板（见 `references/project-type-variants.md`），实例化 `templates/*.tmpl`：
-顶层 `CLAUDE.md`/`ARCHITECTURE.md`/`AGENTS.md`、4 个 `docs/<dir>/README.md`、2 个 exec-plan 辅助。
+顶层 `CLAUDE.md`/`ARCHITECTURE.md`/`AGENTS.md`、4 个 `docs/<dir>/README.md`（decisions / insights / research / exec-plans）、2 个 exec-plan 辅助、ADR 模板。
 可选：生成 `.claudeignore`（排除构建产物/依赖目录）。Monorepo 另为每个子包生成 `CLAUDE.md`。
 ✋ 检查点 2：用户审阅 staging → 确认后原子 mv 到正式位置。
 完整自检见 `references/phase-2-checklist.md`。
@@ -56,14 +56,25 @@ description 按类型定制（见 `references/project-type-variants.md`），bod
 
 ## Quick Reference
 
+4 类 docs 子目录，目的互斥不重叠：
+
+| 目录 | 回答的问题 |
+|------|-----------|
+| `decisions/` | **为什么是这样而不是另一种**（ADR 决策追溯） |
+| `insights/` | **为什么做这个产品**（用户视角 / 商业理由 / 设计动机） |
+| `research/` | **有什么备选 / 可行性如何**（调研，可能不落地） |
+| `exec-plans/` | **现在在做什么 / 进度**（active / completed） |
+
+回答"项目现在长什么样"由顶层 `ARCHITECTURE.md` + 代码 docstring 承担，不再放 docs/。
+
 | 项目类型 | docs/ 调整 |
 |---------|-----------|
 | Web | 全 4 类 |
 | CLI | 默认无 insights |
-| Library | handover + research |
+| Library | decisions + research |
 | Service | 全 4 类 |
 | Monorepo | 顶层 + 每包轻量 |
-| Mobile | handover + insights |
+| Mobile | decisions + insights |
 | Data | research 重于 insights |
 
 类型 → 模板映射的详细规则见 `references/project-type-variants.md`。
@@ -80,4 +91,4 @@ description 按类型定制（见 `references/project-type-variants.md`），bod
 
 ## Design Philosophy
 
-5 大可移植原则（关注点分离 / 双视角 / 自维护索引 / 计划驱动 / 自检纪律）详见 `references/design-philosophy.md`。
+5 大可移植原则（关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律）详见 `references/design-philosophy.md`。

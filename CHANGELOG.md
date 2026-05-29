@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.0] - 2026-05-29
+
+### Changed
+
+**v2 文档体系重构**：`docs/handover/` 废弃，改为 `docs/decisions/`（ADR 决策追溯）。
+
+- 设计哲学第 2 条从"双视角文档"改为"决策追溯独立"（ADR 独立目录，不混在 handover 里）
+- 4 类 docs 子目录：decisions / insights / research / exec-plans
+- 新增 `templates/adr.tmpl`（ADR 模板）+ `templates/docs-decisions-README.tmpl`
+- 删除 `templates/docs-handover-README.tmpl` + `references/sample-handover.md`
+- 新增 `templates/claudeignore.tmpl` + `templates/sub-package-CLAUDE.md.tmpl`（monorepo 子包）
+- maintain skill 清单从 6 项扩展为 8 项（含 ADR 提醒 + 季度审计）
+- ARCHITECTURE.md 目录结构段强制每个顶层目录附一句话职责（codebase map）
+
+参考来源：[How Claude Code works in large codebases](https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start)
+
 ## [0.1.0] - 2026-04-30
 
 ### Added

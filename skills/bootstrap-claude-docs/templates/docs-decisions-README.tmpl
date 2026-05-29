@@ -1,0 +1,42 @@
+# Decisions / 关键决策记录（ADR）
+
+{{PROJECT_NAME}} 的关键架构与产品决策记录，使用 ADR（Architecture Decision Record）标准格式：**Status / Context / Decision / Consequences / Related**。
+
+> 本目录是关键决策的**唯一来源**。每份 ADR 一个文件，按时间序号 + 主题 kebab-case 命名。
+
+## 决策矩阵
+
+| # | 日期 | 决策 | 状态 | 视角 |
+|---|------|------|------|------|
+{{DECISIONS_INDEX_ROWS}}
+<!-- TODO: 每行格式：| **D#** | YYYY-MM-DD | [标题](./YYYY-MM-DD-topic.md) | Accepted | 产品/技术/架构/安全/组织 | -->
+
+## 写作规范
+
+- 文件命名：`YYYY-MM-DD-<topic>.md`（kebab-case + 决策日期前缀）
+- 必含章节：**Status / Context / Decision / Consequences / Related**
+- 决策状态枚举：`Proposed` / `Accepted` / `Deprecated` / `Superseded by D##`
+- 决策被推翻时：**新增**一份 ADR 标记原 ADR 为 `Superseded`，**不修改原文**
+- 跨 ADR 引用用相对链接：`[D##](./YYYY-MM-DD-topic.md)`
+- 模板见 [`adr-template.md`](./adr-template.md)
+
+## 何时新增 ADR
+
+- 影响产品架构的选择（技术栈、数据契约、AI 链路）
+- 反直觉或非显而易见的决策（必须记录"为什么不选另一种"）
+- 跨仓库 / 跨团队协作的约定
+- 重大的技术债务接受决定
+
+不需要 ADR 的场景：日常代码风格、非关键依赖选择、可逆的小修改。
+
+## 与其他文档的关系
+
+| 来源 | 内容形态 | 关注点 |
+|------|---------|--------|
+| **本目录** | 长篇 ADR（Status / Context / Decision / Consequences / Related） | **完整决策追溯**（why） |
+| [`../insights/`](../insights/) | 产品需求 / 用户问题 / 商业理由 | **为什么做这个产品** |
+| [`../../ARCHITECTURE.md`](../../ARCHITECTURE.md) | 技术架构 / 模块图 / 数据流 | **现在长什么样**（how） |
+| [`../research/`](../research/) | 调研 / 可行性分析 | **有什么备选** |
+| [`../exec-plans/`](../exec-plans/) | 执行计划 / 进度状态 | **现在在做什么** |
+
+五者互为补充，不重复。本目录是关键决策的 source of truth。

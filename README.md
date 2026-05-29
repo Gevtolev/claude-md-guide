@@ -6,10 +6,10 @@
 ## 这个仓库提供什么
 
 - **`bootstrap-claude-docs` skill** — 三阶段三检查点流程，把一个项目（空的 / 已有代码的 / 已有旧 CLAUDE.md 的）引导成一整套文档体系
-- **`/bootstrap-docs` slash command** — skill 的命令入口
-- **5 条可移植设计原则** — 关注点分离 / 双视角文档 / 自维护索引 / 计划驱动 / 自检纪律
+- **`/bootstrap-claude-docs` slash command** — skill 自动发现的命令入口
+- **5 条可移植设计原则** — 关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律
 - **7 种项目类型变体** — Web / CLI / Library / Service / Monorepo / Mobile / Data
-- **10 个模板 + 3 份样例** — 拿去就能填
+- **12 个模板 + 2 份样例** — 拿去就能填
 
 ## 产出什么
 
@@ -21,8 +21,9 @@
 ├── ARCHITECTURE.md                             # 结构、数据流、技术栈
 ├── AGENTS.md                                   # CLAUDE.md 的镜像（给非 Claude 的 AI）
 ├── docs/
-│   ├── handover/README.md                      # 技术交接索引
-│   ├── insights/README.md                      # 产品思考索引（与 handover 反链）
+│   ├── decisions/README.md                     # 架构决策记录索引（ADR）
+│   ├── decisions/adr-template.md               # ADR 模板
+│   ├── insights/README.md                      # 产品思考索引
 │   ├── research/README.md                      # 调研索引
 │   └── exec-plans/
 │       ├── README.md                           # 执行计划索引
@@ -39,25 +40,23 @@
 ### 方式 1：手动拷贝（最稳）
 
 ```bash
-git clone https://github.com/YOUR_USER/claude-md-guide.git
+git clone https://github.com/Gevtolev/claude-md-guide.git
 cd claude-md-guide
 cp -r skills/bootstrap-claude-docs ~/.claude/skills/
-cp commands/bootstrap-docs.md ~/.claude/commands/
 ```
 
 ### 方式 2：Symlink（开发者，改源即生效）
 
 ```bash
-git clone https://github.com/YOUR_USER/claude-md-guide.git
+git clone https://github.com/Gevtolev/claude-md-guide.git
 cd claude-md-guide
 ln -sfn "$PWD/skills/bootstrap-claude-docs" ~/.claude/skills/bootstrap-claude-docs
-ln -sf  "$PWD/commands/bootstrap-docs.md"   ~/.claude/commands/bootstrap-docs.md
 ```
 
 ### 方式 3：让 Claude 帮你装
 
 ```bash
-git clone https://github.com/YOUR_USER/claude-md-guide.git
+git clone https://github.com/Gevtolev/claude-md-guide.git
 ```
 
 clone 后进入仓库，跟 Claude Code 说："帮我安装这个仓库里的 skill 到 `~/.claude/skills/`"。Claude 会读 README 并自动拷贝。
@@ -73,10 +72,10 @@ cd ~/projects/your-project
 在 Claude Code 里输入 slash command：
 
 ```
-/bootstrap-docs
+/bootstrap-claude-docs
 ```
 
-或者用自然语言："帮我为这个项目搭一套 Claude Code 文档体系"。
+或者用自然语言："帮我为这个项目搭一套 Claude Code 文档体系"（skill 的 description 会自动命中）。
 
 接下来会走三阶段：
 
@@ -85,7 +84,7 @@ cd ~/projects/your-project
 | 0 | 检测项目状态，告诉你走哪条路径（greenfield / complete / restructure） | 确认路径 |
 | 1 | 扫描代码，识别项目类型，列假设清单 | 审阅假设，修正错误推断 |
 | 2 | 按模板生成骨架到 `.claude-docs-staging/` | 审阅 staging，确认后 skill 原子 mv 到正式位置 |
-| 3 | 深填 ARCHITECTURE 的真实数据，校验双链与索引 | 最终确认 |
+| 3 | 深填 ARCHITECTURE 的真实数据，校验索引完整性 | 最终确认 |
 
 每个检查点都会停下等你确认——不会一把梭哈。
 
@@ -104,7 +103,7 @@ cd ~/projects/your-project
 - [skills/bootstrap-claude-docs/SKILL.md](./skills/bootstrap-claude-docs/SKILL.md) — skill 主流程
 - [skills/bootstrap-claude-docs/references/design-philosophy.md](./skills/bootstrap-claude-docs/references/design-philosophy.md) — 5 大设计哲学详述
 - [skills/bootstrap-claude-docs/references/project-type-variants.md](./skills/bootstrap-claude-docs/references/project-type-variants.md) — 7 种项目类型适配
-- [skills/bootstrap-claude-docs/references/sample-CLAUDE.md](./skills/bootstrap-claude-docs/references/sample-CLAUDE.md) / [sample-ARCHITECTURE.md](./skills/bootstrap-claude-docs/references/sample-ARCHITECTURE.md) / [sample-handover.md](./skills/bootstrap-claude-docs/references/sample-handover.md) — 去标识化样例
+- [skills/bootstrap-claude-docs/references/sample-CLAUDE.md](./skills/bootstrap-claude-docs/references/sample-CLAUDE.md) / [sample-ARCHITECTURE.md](./skills/bootstrap-claude-docs/references/sample-ARCHITECTURE.md) — 去标识化样例
 
 ## License
 

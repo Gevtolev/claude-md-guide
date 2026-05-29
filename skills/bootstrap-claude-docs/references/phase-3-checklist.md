@@ -8,11 +8,11 @@
 - [ ] ARCHITECTURE.md 的「数据流」/「技术栈」至少有一段实质内容（即使是骨架）
 - [ ] 用户在检查点 2 标注的章节均已深填；未标注的章节保留 `<!-- TODO: -->` 占位
 
-## 索引与双链
+## 索引与校验
 
 - [ ] 每个 `docs/<dir>/README.md` 的索引表与该目录实际文件对齐（无遗漏、无幻觉）
-- [ ] 若已有 handover 文档：对应 insights 文件名一致，且互相反向链接
-- [ ] handover/ 和 insights/ 为空时，两份 README 的索引表已显式标注为空（而非遗漏该节）
+- [ ] decisions/README.md 的决策矩阵与 `docs/decisions/` 中实际 ADR 文件对齐
+- [ ] 各目录为空时，README 索引表已显式标注为空（而非遗漏该节）
 - [ ] CLAUDE.md 文档索引节的链接全部存在且可点击
 
 ## 维护 skill 健全

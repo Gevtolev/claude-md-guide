@@ -23,7 +23,7 @@
 1. 改动是否涉及类型 → 是否需要更新 `src/types/`
 2. 改动是否涉及 schema → 是否需要更新迁移
 3. 改动是否涉及国际化 → 是否需要同步翻译文件
-4. 改动是否涉及文档 → 是否需要同步 docs/handover/
+4. 改动是否产生关键决策 → 是否需要新增 `docs/decisions/` 下的 ADR
 -->
 
 ## 工作流
@@ -34,9 +34,9 @@
 ## 文档
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — 项目架构、目录结构、数据流
-- `docs/handover/` — 技术交接文档（架构、数据流、设计决策）
-- `docs/insights/` — 产品思考文档（用户问题、设计理由）
+- `docs/decisions/` — **关键决策记录（ADR）**：架构与产品决策的追溯
+- `docs/insights/` — 产品思考文档（用户问题、设计理由、商业考量）
 - `docs/research/` — 调研文档（技术方案、可行性分析）
-- `docs/exec-plans/` — 执行计划（进度状态、决策日志、技术债务）
+- `docs/exec-plans/` — 执行计划（active / completed、技术债务）
 
 **检索前先读对应目录的 README.md；增删文件后更新索引。**

@@ -1,11 +1,12 @@
 # 空目录跑 /bootstrap-docs（greenfield 路径）的期望产出
 
-## 期望创建的文件（9 个顶层 + 1 个项目级 skill = 10）
+## 期望创建的文件（10 个顶层 + 1 个项目级 skill = 11）
 
 CLAUDE.md
 ARCHITECTURE.md
 AGENTS.md
-docs/handover/README.md
+docs/decisions/README.md
+docs/decisions/adr-template.md
 docs/insights/README.md
 docs/research/README.md
 docs/exec-plans/README.md
@@ -18,8 +19,8 @@ docs/exec-plans/exec-plan-template.md
 - CLAUDE.md：包含 `## 改动自查` 和 `## 文档` 两节
 - ARCHITECTURE.md：包含 `## 目录结构` 和 `## 技术栈` 两节
 - AGENTS.md：包含 `{{COPY_OF_CLAUDE_MD}}` 或等效内容
-- docs/handover/README.md：标题含 "Handover"，出现 "insights" 反链
-- docs/insights/README.md：标题含 "产品思考"，出现 "handover" 反链
+- docs/decisions/README.md：标题含 "Decisions" 或 "决策"，含决策矩阵表头
+- docs/insights/README.md：标题含 "产品思考" 或 "Insights"
 - docs/research/README.md：标题含 "Research"
 - docs/exec-plans/README.md：出现 "active"、"completed"、"tech-debt-tracker" 三个关键词
 - .claude/skills/maintain-claude-docs/SKILL.md：

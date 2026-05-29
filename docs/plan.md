@@ -1,4 +1,6 @@
-# bootstrap-claude-docs 实现计划
+# bootstrap-claude-docs 实现计划（v1 历史文档）
+
+> **⚠️ 本文件是 v0.1.0 的实现计划，已全部完成。v0.2.0 引入了"decisions 取代 handover"的重构，本文件中的 handover 引用已过时，保留仅作历史参考。**
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 

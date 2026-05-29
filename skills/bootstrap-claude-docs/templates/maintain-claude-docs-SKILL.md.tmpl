@@ -2,8 +2,8 @@
 name: maintain-claude-docs
 description: |
   {{TYPE_SPECIFIC_TRIGGER_SENTENCE}}
-  Reminds Claude to keep the documentation system in sync (handover docs, insights docs,
-  README indexes, tech debt tracker, exec-plans). Use also when user mentions
+  Reminds Claude to keep the documentation system in sync (decisions/ADRs, insights,
+  research, exec-plans, README indexes, tech debt tracker). Use also when user mentions
   "更新文档", "doc maintenance", or finishes a substantive change.
 ---
 
@@ -17,6 +17,7 @@ description: |
 - 完成或更新 `docs/exec-plans/active/<topic>.md` 后
 - 发现技术债务后
 - 修改了 `src/` 中的关键模块后
+- 产生新的架构 / 产品决策后
 - 用户主动要求"更新文档"
 
 ## When to Skip
@@ -29,13 +30,14 @@ description: |
 
 完成本次改动后，逐项检查：
 
-1. **是否构成新功能？** → 是否需要写 `docs/handover/<feature>.md`？
-2. **是否涉及产品决策？** → 是否需要写 `docs/insights/<feature>.md`？两份文档文件名一致并互相反链了吗？
-3. **是否增删了文档文件？** → 对应 `docs/<dir>/README.md` 索引同步了吗？
-4. **是否发现了技术债务？** → 已添加到 `docs/exec-plans/tech-debt-tracker.md` 了吗？
-5. **是否在做中大型功能？** → 已起 `docs/exec-plans/active/<topic>.md` 了吗？
-6. **是否完成了 exec-plan？** → 已移到 `docs/exec-plans/completed/` 了吗？
-7. **季度审计**：CLAUDE.md 中是否有因模型/工具演进而过时的规则？每 3 个月回顾一次，移除已不需要的约束。
+1. **是否产生新的架构 / 产品决策？** → 是否需要在 `docs/decisions/` 新增 ADR？（标准格式 Status / Context / Decision / Consequences / Related，文件命名 `YYYY-MM-DD-<topic>.md`，更新 decisions/README 决策矩阵）
+2. **是否构成新功能或新模块？** → 顶层 `ARCHITECTURE.md` 对应章节是否需要更新？模块级深入是否在代码 docstring 写清？
+3. **是否涉及产品视角的"为什么"？** → 是否需要在 `docs/insights/` 写一份产品思考文档？
+4. **是否增删了文档文件？** → 对应 `docs/<dir>/README.md` 索引同步了吗？
+5. **是否发现了技术债务？** → 已添加到 `docs/exec-plans/tech-debt-tracker.md` 了吗？
+6. **是否在做中大型功能？** → 已起 `docs/exec-plans/active/<topic>.md` 了吗？
+7. **是否完成了 exec-plan？** → 已移到 `docs/exec-plans/completed/` 了吗？
+8. **季度审计**：CLAUDE.md 中是否有因模型/工具演进而过时的规则？每 3 个月回顾一次，移除已不需要的约束。
 
 ## How to Apply
 
@@ -50,4 +52,5 @@ description: |
 - 库：API 改动是否标记了 SemVer 影响等级？
 - Monorepo：新增子包后是否同步了子包 CLAUDE.md？
 - 所有类型：.claudeignore 是否需要更新（新增了生成文件/大型资产）？
+- 所有类型：决策记录漏写比迟写代价更高，宁可写得简短也要立即新增 ADR
 -->

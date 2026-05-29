@@ -11,7 +11,7 @@
 灵感来源是 [insilico-pilot](https://github.com/Gevtolev/insilico-pilot) 项目的文档实践，提炼了 5 条可移植的设计哲学：
 
 1. **关注点分离**：CLAUDE.md（规则） / ARCHITECTURE.md（结构） / docs/（深度）
-2. **双视角文档**：handover（技术交接） + insights（产品思考），文件名一致并反链
+2. **决策追溯独立**：架构/产品决策独立到 `docs/decisions/`（ADR 格式），不混在其他目录
 3. **自维护索引**：每个 docs/<dir>/README.md 是入口，新增/删文件必须同步
 4. **计划驱动**：中大型功能进 exec-plans/active/，完成后归档到 completed/；纯研究进 research/
 5. **自检纪律**：CLAUDE.md 自带「改动自查」清单 + 项目级维护 skill 主动提醒
@@ -28,9 +28,9 @@
 
 | 编号 | 场景 | 用户输入 | 期望产出 |
 |------|------|----------|----------|
-| US-1 | 空项目初始化 | `/bootstrap-docs` 在新建空目录里 | 完整骨架（占位 + TODO），让用户跟着填 |
-| US-2 | 已有项目补全 | `/bootstrap-docs` 在已有代码、缺文档的项目里 | 扫描代码后推断架构，生成顶层文件 + docs/ 子目录索引 |
-| US-3 | 重构已有 CLAUDE.md | `/bootstrap-docs` 在已有 CLAUDE.md 但不符合体系的项目 | 拆分 CLAUDE.md → ARCHITECTURE.md + 规则段落，备份原文件 |
+| US-1 | 空项目初始化 | `/bootstrap-claude-docs` 在新建空目录里 | 完整骨架（占位 + TODO），让用户跟着填 |
+| US-2 | 已有项目补全 | `/bootstrap-claude-docs` 在已有代码、缺文档的项目里 | 扫描代码后推断架构，生成顶层文件 + docs/ 子目录索引 |
+| US-3 | 重构已有 CLAUDE.md | `/bootstrap-claude-docs` 在已有 CLAUDE.md 但不符合体系的项目 | 拆分 CLAUDE.md → ARCHITECTURE.md + 规则段落，备份原文件 |
 | US-4 | 自动触发（非显式） | "帮我搭一套像 insilico-pilot 那样的文档结构" | skill description 命中，自动进入 Phase 0 |
 | US-5 | 安装后日常维护 | 用户在被 bootstrap 过的项目里写新功能 | 项目级 `maintain-claude-docs` skill 自动提醒该写哪份文档 |
 
@@ -52,21 +52,21 @@ claude-md-guide/
 │       │   ├── phase-2-checklist.md            # 骨架完整性检查
 │       │   ├── phase-3-checklist.md            # 内容质量门
 │       │   ├── sample-CLAUDE.md                # 去标识化样例
-│       │   ├── sample-ARCHITECTURE.md
-│       │   └── sample-handover.md
+│       │   └── sample-ARCHITECTURE.md
 │       └── templates/                          # 顶层 templates/，符合社区惯例
 │           ├── CLAUDE.md.tmpl
 │           ├── ARCHITECTURE.md.tmpl
 │           ├── AGENTS.md.tmpl
-│           ├── docs-handover-README.tmpl
+│           ├── docs-decisions-README.tmpl
 │           ├── docs-insights-README.tmpl
 │           ├── docs-research-README.tmpl
 │           ├── docs-exec-plans-README.tmpl
+│           ├── adr.tmpl
 │           ├── tech-debt-tracker.tmpl
 │           ├── exec-plan.tmpl
+│           ├── claudeignore.tmpl
+│           ├── sub-package-CLAUDE.md.tmpl
 │           └── maintain-claude-docs-SKILL.md.tmpl   # 目标项目里的维护 skill 模板
-├── commands/
-│   └── bootstrap-docs.md                       # ↔ ~/.claude/commands/bootstrap-docs.md
 ├── tests/
 │   └── fixtures/                               # 第二期添加（参考第 10.2 节）
 │       ├── empty/
@@ -77,7 +77,7 @@ claude-md-guide/
 └── CHANGELOG.md
 ```
 
-仓库的 `skills/` 与 `commands/` 镜像 `~/.claude/` 的目录结构，安装即 1:1 拷贝。
+仓库的 `skills/` 镜像 `~/.claude/skills/` 的目录结构，安装即 1:1 拷贝。
 
 ### 3.2 安装方式
 
@@ -86,11 +86,9 @@ README 提供三种装法：
 ```bash
 # 1. 手动拷贝（最稳）
 cp -r skills/bootstrap-claude-docs ~/.claude/skills/
-cp commands/bootstrap-docs.md ~/.claude/commands/
 
 # 2. Symlink（开发者，改源即生效）
 ln -s "$PWD/skills/bootstrap-claude-docs" ~/.claude/skills/bootstrap-claude-docs
-ln -s "$PWD/commands/bootstrap-docs.md" ~/.claude/commands/bootstrap-docs.md
 
 # 3. 让 Agent 自己装
 # 在 Claude Code 里说："帮我安装这个仓库里的 skill"
@@ -102,7 +100,7 @@ ln -s "$PWD/commands/bootstrap-docs.md" ~/.claude/commands/bootstrap-docs.md
 
 | 方式 | 触发点 |
 |------|--------|
-| Slash command | 用户输入 `/bootstrap-docs` |
+| Slash command | 用户输入 `/bootstrap-claude-docs` |
 | Description 自动触发 | SKILL.md 的 description 命中 "initialize project docs" / "create CLAUDE.md system" / "搭建文档体系" / "初始化文档" 等关键词 |
 | 明示调用 | "用 bootstrap-claude-docs skill" |
 
@@ -201,7 +199,7 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 |------|------|
 | 2.1 选模板变体 | 根据 Phase 1 类型选 `templates/<variant>.tmpl` |
 | 2.2 顶层文件 | CLAUDE.md / ARCHITECTURE.md / AGENTS.md（CLAUDE.md 必含「改动自查清单」+「文档索引」+「工作流纪律」段落） |
-| 2.3 docs 索引 | docs/{handover, insights, research, exec-plans}/README.md |
+| 2.3 docs 索引 | docs/{decisions, insights, research, exec-plans}/README.md |
 | 2.4 模板辅助文件 | docs/exec-plans/tech-debt-tracker.md（空表）、docs/exec-plans/exec-plan-template.md |
 | 2.5 ★ 项目级维护 skill | 在**目标项目**里生成 `.claude/skills/maintain-claude-docs/SKILL.md`（与本 skill 的源仓库无关），description 适配项目类型 |
 
@@ -222,7 +220,7 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 |------|------|
 | 3.1 深推断 | 对用户在检查点 2 标注的章节读源码、grep、推数据流 |
 | 3.2 ARCHITECTURE 真实化 | 「目录结构 / 数据流 / 技术栈」用扫描数据填充，不再占位 |
-| 3.3 双链校验 | handover ↔ insights 文件名一致、反链存在（即使 0 篇文档也校验空状态） |
+| 3.3 索引校验 | decisions/README 决策矩阵与文件对齐；各目录 README 索引与实际文件对齐 |
 | 3.4 索引校验 | 每个 docs/<dir>/README.md 与目录内文件对齐 |
 | 3.5 输出使用指南 | 终端打印「日常如何维护这套体系」简短卡片 |
 
@@ -241,7 +239,7 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 | # | 名称 | 一句话 |
 |---|------|--------|
 | 1 | 关注点分离 | CLAUDE.md 不写架构，ARCHITECTURE.md 不写规则，docs/ 不写流程 |
-| 2 | 双视角文档 | 每个重要功能两份文档：技术交接 + 产品思考，互相反链 |
+| 2 | 决策追溯独立 | 架构/产品决策进 `docs/decisions/`（ADR 格式），不混在其他目录 |
 | 3 | 自维护索引 | 每个 docs 子目录的 README.md 是它的目录索引，文件增删必须同步 |
 | 4 | 计划驱动 | 中大型功能、研究、债务都进 docs/ 留痕，AI 和人都能从中检索 |
 | 5 | 自检纪律 | CLAUDE.md 写"改完代码 commit 前要确认 X / Y / Z"，AI 也守 |
@@ -251,11 +249,11 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 | 类型 | 检测信号 | ARCHITECTURE 必填 | docs/ 调整 |
 |------|----------|-------------------|-----------|
 | Web 应用 | Next.js / Vite / Django / Rails | 路由 / 数据流 / DB schema / API / 前后端边界 | 全 4 类 |
-| CLI 工具 | bin 入口 / cobra / click / commander | 命令树 / IO 协议 / 配置加载 | 主用 handover + research |
-| 库 / SDK | 主导出 / 多版本支持 | 公共 API 表面 / 版本兼容矩阵 / 扩展点 | 主用 handover + research |
+| CLI 工具 | bin 入口 / cobra / click / commander | 命令树 / IO 协议 / 配置加载 | decisions + research + exec-plans（默认无 insights） |
+| 库 / SDK | 主导出 / 多版本支持 | 公共 API 表面 / 版本兼容矩阵 / 扩展点 | decisions + research + exec-plans |
 | 后端服务 | Dockerfile + 长进程 | 服务边界 / 队列 / 数据流 / SLO | 全 4 类 |
 | Monorepo | workspaces / lerna / nx / turborepo | 工作区图 / 包依赖图 / 发布流 | 顶层 + 每包轻量 CLAUDE.md |
-| 移动 App | iOS / Android / RN / Flutter | 平台分支 / 状态管理 / 原生桥 | handover + insights |
+| 移动 App | iOS / Android / RN / Flutter | 平台分支 / 状态管理 / 原生桥 | decisions + insights + exec-plans |
 | 数据 / Notebook | .ipynb 多 / DAG 文件 | Pipeline DAG / 数据契约 / 实验记录 | research 比 insights 重要 |
 
 ## 7. 项目级维护 skill（核心创新）
@@ -268,20 +266,22 @@ name: maintain-claude-docs
 description: |
   Use when adding a new feature, fixing a bug, completing an exec-plan, finding tech debt,
   or modifying files in src/. Reminds Claude to update the documentation system
-  (handover docs, insights docs, README indexes, tech debt tracker).
+  (decisions/ADRs, insights, research, exec-plans, README indexes, tech debt tracker).
 ---
 ```
 
 触发后跑一遍清单：
 
-1. 改动是否构成新功能 → 是否需写 `docs/handover/<feature>.md`？
-2. 涉及产品决策 → 是否需写 `docs/insights/<feature>.md`？
-3. 增删了文档文件 → `docs/<dir>/README.md` 索引同步了吗？
-4. 发现技术债务 → 进 `docs/exec-plans/tech-debt-tracker.md` 了吗？
-5. 中大型功能开工 → 起 `docs/exec-plans/active/<topic>.md` 了吗？
-6. 完成 exec-plan → 移到 `completed/` 了吗？
+1. 是否产生新的架构/产品决策 → 是否需在 `docs/decisions/` 新增 ADR？
+2. 是否构成新功能或新模块 → `ARCHITECTURE.md` 对应章节是否需更新？
+3. 是否涉及产品视角的"为什么" → 是否需在 `docs/insights/` 写一份？
+4. 是否增删了文档文件 → `docs/<dir>/README.md` 索引同步了吗？
+5. 发现技术债务 → 进 `docs/exec-plans/tech-debt-tracker.md` 了吗？
+6. 中大型功能开工 → 起 `docs/exec-plans/active/<topic>.md` 了吗？
+7. 完成 exec-plan → 移到 `completed/` 了吗？
+8. 季度审计 → CLAUDE.md 是否有过时规则需清理？
 
-清单内容由 bootstrap 时根据项目变体定制（Library 类型项目 1/2 项 description 改为"修改公共 API 表面时"等）。
+清单内容由 bootstrap 时根据项目变体定制（Library 类型项目 description 改为"修改公共 API 表面时"等）。
 
 ## 8. 重构路径（restructure existing CLAUDE.md）
 
@@ -290,7 +290,7 @@ description: |
 1. 读现有 CLAUDE.md，按段落语义分类：
    - **规则 / 流程类** → 留在 CLAUDE.md
    - **架构 / 数据流 / 技术栈** → 搬 ARCHITECTURE.md
-   - **某具体功能详解** → 拆到 docs/handover/<feature>.md
+   - **某具体功能详解** → 模块级深入由 ARCHITECTURE.md 或代码 docstring 承担
 2. 输出 diff 预览给用户（每段去哪一目了然）
 3. 备份原文件 `CLAUDE.md.bak.<timestamp>`
 4. 执行迁移
@@ -318,7 +318,7 @@ description: |
 
 - **phase-1-scan.md**：项目类型已识别 / 主语言已确认 / 假设列表已生成 / 用户已确认
 - **phase-2-skeleton.md**：所有顶层文件已生成 / 索引 README.md 完整 / 维护 skill 已生成 / staging 已 mv
-- **phase-3-content.md**：双链全部成立 / 索引与目录对齐 / 使用指南已输出
+- **phase-3-content.md**：索引与目录对齐 / decisions 矩阵完整 / 使用指南已输出
 
 任何一项不通过 → 阻塞继续，必须先修复。
 
@@ -330,7 +330,7 @@ description: |
 |---------|------|----------|
 | `tests/fixtures/empty/` | Greenfield | 完整骨架 + 占位 TODO |
 | `tests/fixtures/nextjs-app/` | Web 应用 | ARCHITECTURE.md 含路由/API 真实化 |
-| `tests/fixtures/python-cli/` | CLI 工具 | docs/insights 缺省、handover/research 完整 |
+| `tests/fixtures/python-cli/` | CLI 工具 | docs/insights 缺省、decisions/research 完整 |
 
 每个 fixture 在 `expected/` 下放期望产出，`run-tests.sh` 跑 skill 后 diff 对比。
 
@@ -338,8 +338,8 @@ description: |
 
 ## 11. 验收标准（首版发布门）
 
-- [ ] `/bootstrap-docs` 在 `tests/fixtures/empty/` 上跑通，产出符合 phase-3 checklist
-- [ ] `/bootstrap-docs` 在某真实 Next.js 项目（claude-md-guide 自身）上跑通
+- [ ] `/bootstrap-claude-docs` 在 `tests/fixtures/empty/` 上跑通，产出符合 phase-3 checklist
+- [ ] `/bootstrap-claude-docs` 在某真实 Next.js 项目（claude-md-guide 自身）上跑通
 - [ ] 重构路径在一份"无体系的旧 CLAUDE.md"上跑通，diff 预览正确
 - [ ] 生成的项目级 maintain-skill 在被 bootstrap 过的项目里能被 Claude Code 加载并自动触发
 - [ ] README.md 的三种安装方式至少有一种被验证
@@ -350,7 +350,7 @@ description: |
 
 - **不做**：跨语言文档同步（用户改了 ARCHITECTURE.md 中文版，自动同步英文版）
 - **不做**：周期性体检（已有 `claude-md-improver` 负责）
-- **未来**：多 package monorepo 子包级 CLAUDE.md 自动生成
+- ~~**未来**：多 package monorepo 子包级 CLAUDE.md 自动生成~~ ✅ v0.2.0 已实现（sub-package-CLAUDE.md.tmpl）
 - **未来**：与 git hooks 集成（commit 前自动跑 maintain-claude-docs 清单）
 - **未来**：把 design-philosophy.md 翻成英文版给国际用户用
 
