@@ -10,7 +10,7 @@
 - 4 类 docs 子目录：decisions / insights / research / exec-plans
 - 新增 `templates/adr.tmpl`（ADR 模板）+ `templates/docs-decisions-README.tmpl`
 - 删除 `templates/docs-handover-README.tmpl` + `references/sample-handover.md`
-- 新增 `templates/claudeignore.tmpl` + `templates/sub-package-CLAUDE.md.tmpl`（monorepo 子包）
+- 新增 `templates/ignore.tmpl`（生成 `.ignore`，ripgrep 格式）+ `templates/sub-package-CLAUDE.md.tmpl`（monorepo 子包）
 - maintain skill 清单从 6 项扩展为 8 项（含 ADR 提醒 + 季度审计）
 - ARCHITECTURE.md 目录结构段强制每个顶层目录附一句话职责（codebase map）
 

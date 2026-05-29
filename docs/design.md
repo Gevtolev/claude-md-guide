@@ -64,7 +64,7 @@ claude-md-guide/
 │           ├── adr.tmpl
 │           ├── tech-debt-tracker.tmpl
 │           ├── exec-plan.tmpl
-│           ├── claudeignore.tmpl
+│           ├── ignore.tmpl
 │           ├── sub-package-CLAUDE.md.tmpl
 │           └── maintain-claude-docs-SKILL.md.tmpl   # 目标项目里的维护 skill 模板
 ├── tests/

@@ -1,0 +1,34 @@
+# .ignore — Claude Code 搜索时额外排除的文件（ripgrep 格式，语法同 .gitignore）
+# 与 .gitignore 的区别：这里排除的是"已入 git 但 Claude 读了也没用"的文件。
+# .gitignore 已排除的（node_modules/ 等）无需重复写。
+
+# 压缩/生成的代码（入了 git 但无可读性）
+*.min.js
+*.min.css
+*.map
+
+# 锁文件（体积大，无语义信息）
+*.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# 大型资产（二进制，Claude 无法解读）
+*.png
+*.jpg
+*.gif
+*.svg
+*.ico
+*.woff
+*.woff2
+*.ttf
+*.eot
+*.mp4
+*.pdf
+
+# 第三方 vendored 代码（如有 commit 到仓库的）
+# vendor/
+# third_party/
+
+{{ADDITIONAL_IGNORES}}
+<!-- TODO: 根据项目实际情况增删。原则：排除"入了 git 但 Claude 读了无法获得有用信息"的文件 -->
