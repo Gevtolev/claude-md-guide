@@ -8,13 +8,14 @@
 
 **bootstrap-claude-docs** 是一个 Claude Code skill，指导 Claude 为目标项目生成一整套**可落地、可维护**的文档体系，比内置 `/init` 命令的产出更完整、更结构化。
 
-灵感来源是 [insilico-pilot](https://github.com/Gevtolev/insilico-pilot) 项目的文档实践，提炼了 5 条可移植的设计哲学：
+灵感来源是 [insilico-pilot](https://github.com/Gevtolev/insilico-pilot) 项目的文档实践，提炼了 6 条可移植的设计哲学：
 
 1. **关注点分离**：CLAUDE.md（规则） / ARCHITECTURE.md（结构） / docs/（深度）
 2. **决策追溯独立**：架构/产品决策独立到 `docs/decisions/`（ADR 格式），不混在其他目录
-3. **自维护索引**：每个 docs/<dir>/README.md 是入口，新增/删文件必须同步
-4. **计划驱动**：中大型功能进 exec-plans/active/，完成后归档到 completed/；纯研究进 research/
-5. **自检纪律**：CLAUDE.md 自带「改动自查」清单 + 项目级维护 skill 主动提醒
+3. **自维护索引**：每个 docs/<dir>/README.md 是入口，新增长期文档时同步（脚手架/空目录不维护索引）
+4. **计划驱动（粗粒度）**：中大型功能进 exec-plans/active/，完成后移到 completed/；不逐行复述实现
+5. **自检纪律（精简）**：CLAUDE.md 自带 ≤4 条核心「改动自查」+ 项目级维护 skill 按需触发
+6. **克制**：只记「将来真会回头查」的——难逆转 + 非显而易见的决策；文档为回查服务，不为完整性
 
 ### 1.1 与现有工具的关系
 
@@ -46,7 +47,7 @@ claude-md-guide/
 │   └── bootstrap-claude-docs/                  # ↔ ~/.claude/skills/bootstrap-claude-docs/
 │       ├── SKILL.md                            # 主流程，≤ 500 词（社区惯例）
 │       ├── references/                         # 深度文档（被 SKILL.md 按需引用）
-│       │   ├── design-philosophy.md            # 5 大设计哲学详述
+│       │   ├── design-philosophy.md            # 6 大设计哲学详述
 │       │   ├── project-type-variants.md        # 7 种项目类型差异化指引
 │       │   ├── phase-1-checklist.md            # 扫描完成判定标准
 │       │   ├── phase-2-checklist.md            # 骨架完整性检查
@@ -155,7 +156,7 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 （常见错误 + 修正）
 ```
 
-深度内容（5 大哲学 / 7 种变体 / 3 个 phase 清单 / 3 份去标识化样例）通通在 `references/`，SKILL.md 按需 link。
+深度内容（6 大哲学 / 7 种变体 / 3 个 phase 清单 / 2 份去标识化样例）通通在 `references/`，SKILL.md 按需 link。
 
 ## 4. 工作流
 
@@ -232,7 +233,7 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
                 - 全通过 → 完成
 ```
 
-## 5. 5 大设计哲学（详见 references/design-philosophy.md）
+## 5. 6 大设计哲学（详见 references/design-philosophy.md）
 
 每条原则在 references 文档里都附 **做什么 / 反例 / 为什么 / 怎么落到模板** 四节。
 
@@ -240,9 +241,10 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 |---|------|--------|
 | 1 | 关注点分离 | CLAUDE.md 不写架构，ARCHITECTURE.md 不写规则，docs/ 不写流程 |
 | 2 | 决策追溯独立 | 架构/产品决策进 `docs/decisions/`（ADR 格式），不混在其他目录 |
-| 3 | 自维护索引 | 每个 docs 子目录的 README.md 是它的目录索引，文件增删必须同步 |
-| 4 | 计划驱动 | 中大型功能、研究、债务都进 docs/ 留痕，AI 和人都能从中检索 |
-| 5 | 自检纪律 | CLAUDE.md 写"改完代码 commit 前要确认 X / Y / Z"，AI 也守 |
+| 3 | 自维护索引 | 每个 docs 子目录的 README.md 是它的索引；只为长期文档维护，脚手架/空目录不建 |
+| 4 | 计划驱动（粗粒度） | 中大型功能进 exec-plans，记 phases + 状态 + 决策，不逐行复述实现 |
+| 5 | 自检纪律（精简） | CLAUDE.md ≤4 条核心自查 + 一行软提示；维护 skill 按需触发，非每改动 |
+| 6 | 克制 | 只记「将来真会回头查」的——难逆转 + 非显而易见；文档为回查服务，不为完整性 |
 
 ## 6. 项目类型变体（references/project-type-variants.md）
 

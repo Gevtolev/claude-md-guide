@@ -91,4 +91,4 @@ description 按类型定制（见 `references/project-type-variants.md`），bod
 
 ## Design Philosophy
 
-5 大可移植原则（关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律）详见 `references/design-philosophy.md`。
+6 大可移植原则（关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律 / 克制）详见 `references/design-philosophy.md`。

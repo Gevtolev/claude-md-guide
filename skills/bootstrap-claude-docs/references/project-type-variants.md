@@ -31,8 +31,8 @@
 ### docs/ 调整
 保留全部 4 类（decisions / insights / research / exec-plans）。
 
-### maintain-claude-docs description 起手
-`Use when adding a route, API endpoint, page, or modifying database schema...`
+### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
+`This is a web app — focus the doc audit on route / API / page / DB-schema changes and the front/back boundary.`
 
 ---
 
@@ -51,8 +51,8 @@
 ### docs/ 调整
 默认不要 `insights/`（CLI 工具产品决策少；让用户自己开启）；其余保留 decisions / research / exec-plans。
 
-### maintain-claude-docs description 起手
-`Use when adding or modifying a command, flag, or configuration option...`
+### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
+`This is a CLI tool — focus the doc audit on command / flag / config-option changes.`
 
 ---
 
@@ -71,8 +71,8 @@
 ### docs/ 调整
 默认 `decisions/` + `research/` + `exec-plans/`；`insights/` 可选。
 
-### maintain-claude-docs description 起手
-`Use when modifying public API surface, exports, or extension points...`
+### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
+`This is a library/SDK — focus the doc audit on public API surface, exports, and extension points (note SemVer impact).`
 
 ---
 
@@ -93,8 +93,8 @@
 ### docs/ 调整
 保留全部 4 类。
 
-### maintain-claude-docs description 起手
-`Use when adding an endpoint, changing a queue contract, or modifying service boundaries...`
+### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
+`This is a backend service — focus the doc audit on endpoints, queue contracts, and service boundaries.`
 
 ---
 
@@ -119,8 +119,8 @@
 2. 每个 package 目录生成 `CLAUDE.md`（用 `sub-package-CLAUDE.md.tmpl`）
 3. 根 ARCHITECTURE.md `## 目录结构` 里列出每个 package 一句话职责
 
-### maintain-claude-docs description 起手
-`Use when adding a package, changing workspace dependencies, or modifying the release flow...`
+### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
+`This is a monorepo — focus the doc audit on new packages, workspace dependencies, and the release flow.`
 
 ---
 
@@ -138,8 +138,8 @@
 ### docs/ 调整
 保留 `decisions/` + `insights/` + `exec-plans/`；`research/` 视情况。
 
-### maintain-claude-docs description 起手
-`Use when modifying a screen, native bridge, or state management slice...`
+### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
+`This is a mobile app — focus the doc audit on screens, native bridges, and state-management changes.`
 
 ---
 
@@ -157,5 +157,5 @@
 ### docs/ 调整
 `research/` 比 `insights/` 重要；建议把 `insights/` 与 `research/` 合并为单目录；`exec-plans/` 保留；`decisions/` 保留。
 
-### maintain-claude-docs description 起手
-`Use when adding a pipeline stage, modifying data contracts, or recording an experiment...`
+### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
+`This is a data/notebook project — focus the doc audit on pipeline stages, data contracts, and experiment records.`

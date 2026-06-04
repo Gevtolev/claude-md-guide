@@ -1,10 +1,11 @@
 ---
 name: maintain-claude-docs
 description: |
-  {{TYPE_SPECIFIC_TRIGGER_SENTENCE}}
-  Reminds Claude to keep the documentation system in sync (decisions/ADRs, insights,
-  research, exec-plans, README indexes, tech debt tracker). Use also when user mentions
-  "更新文档", "doc maintenance", or finishes a substantive change.
+  On-demand / periodic documentation audit for this project. Use when the user explicitly
+  asks to update or audit docs ("更新文档" / "文档体检"), or at a milestone (a phase wraps
+  up, before a release) — NOT after every change. {{TYPE_SPECIFIC_TRIGGER_SENTENCE}}
+  Keeps decisions/ADRs and README indexes honest without over-documenting; only record
+  reversal-resistant, non-obvious decisions.
 ---
 
 # Maintain Claude Docs
@@ -13,12 +14,11 @@ description: |
 
 ## When to Use
 
-- 完成一个新功能或重要修改后
-- 完成或更新 `docs/exec-plans/active/<topic>.md` 后
-- 发现技术债务后
-- 修改了 `src/` 中的关键模块后
-- 产生新的架构 / 产品决策后
-- 用户主动要求"更新文档"
+- 用户主动要求「更新文档 / 文档体检」
+- 阶段性节点（功能收尾、发版前）做一次文档体检
+- 产生了**难逆转 + 非显而易见**的关键决策（即时记一条 ADR）
+
+**不要**在每次普通改动后都跑——日常改动只走 CLAUDE.md 的精简改动自查即可。
 
 ## When to Skip
 
@@ -30,9 +30,9 @@ description: |
 
 完成本次改动后，逐项检查：
 
-1. **是否产生新的架构 / 产品决策？** → 是否需要在 `docs/decisions/` 新增 ADR？（标准格式 Status / Context / Decision / Consequences / Related，文件命名 `YYYY-MM-DD-<topic>.md`，更新 decisions/README 决策矩阵）
+1. **是否产生「难逆转 + 非显而易见」的关键决策？** → 才在 `docs/decisions/` 新增 ADR（可写短，20–30 行够；标准格式 Status / Context / Decision / Consequences / Related，命名 `YYYY-MM-DD-<topic>.md`，矩阵补 1 行）。日常可逆改动不写。
 2. **是否构成新功能或新模块？** → 顶层 `ARCHITECTURE.md` 对应章节是否需要更新？模块级深入是否在代码 docstring 写清？
-3. **是否涉及产品视角的"为什么"？** → 是否需要在 `docs/insights/` 写一份产品思考文档？
+3. **（可选）有 ADR 的 Context 段装不下的产品级"为什么"？** → 才考虑在 `docs/insights/` 写一份；不强制。
 4. **是否增删了文档文件？** → 对应 `docs/<dir>/README.md` 索引同步了吗？
 5. **是否发现了技术债务？** → 已添加到 `docs/exec-plans/tech-debt-tracker.md` 了吗？
 6. **是否在做中大型功能？** → 已起 `docs/exec-plans/active/<topic>.md` 了吗？
@@ -52,5 +52,5 @@ description: |
 - 库：API 改动是否标记了 SemVer 影响等级？
 - Monorepo：新增子包后是否同步了子包 CLAUDE.md？
 - 所有类型：.ignore 是否需要更新（新增了生成文件/大型资产）？
-- 所有类型：决策记录漏写比迟写代价更高，宁可写得简短也要立即新增 ADR
+- 所有类型：只记「难逆转 + 非显而易见」的决策，ADR 可写短；日常可逆改动不写
 -->

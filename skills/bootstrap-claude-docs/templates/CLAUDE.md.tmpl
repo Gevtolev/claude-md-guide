@@ -19,11 +19,12 @@
 完成代码修改后，在提交前确认：
 
 {{CHANGE_REVIEW_CHECKLIST}}
-<!-- TODO: 5-8 条本项目专属的自查项。参考样例：
-1. 改动是否涉及类型 → 是否需要更新 `src/types/`
-2. 改动是否涉及 schema → 是否需要更新迁移
-3. 改动是否涉及国际化 → 是否需要同步翻译文件
-4. 改动是否产生关键决策 → 是否需要新增 `docs/decisions/` 下的 ADR
+<!-- TODO: ≤4 条核心自查项 + 一行「软提示·按需」，别列长清单（越长越没人逐条走）。参考样例：
+1. 改动涉及类型 / schema → 同步 `src/types/` / 迁移
+2. 碰 secret → 客户端不泄露
+3. 改动涉及核心计算 / 契约 → 有对应测试
+4. 产生「难逆转 + 非显而易见」的关键决策 → 才记一份 `docs/decisions/` ADR（可写短）
+> 软提示（按需、不强制写文档）：其余如 i18n 同步 / 依赖补 .env.example / 架构改动顺手更新 ARCHITECTURE.md
 -->
 
 ## 工作流
@@ -35,7 +36,7 @@
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — 项目架构、目录结构、数据流
 - `docs/decisions/` — **关键决策记录（ADR）**：架构与产品决策的追溯
-- `docs/insights/` — 产品思考文档（用户问题、设计理由、商业考量）
+- `docs/insights/` — 产品思考文档（**可选**；ADR 的 Context 段装不下时才写，不强制每改动补）
 - `docs/research/` — 调研文档（技术方案、可行性分析）
 - `docs/exec-plans/` — 执行计划（active / completed、技术债务）
 

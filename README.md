@@ -7,7 +7,7 @@
 
 - **`bootstrap-claude-docs` skill** — 三阶段三检查点流程，把一个项目（空的 / 已有代码的 / 已有旧 CLAUDE.md 的）引导成一整套文档体系
 - **`/bootstrap-claude-docs` slash command** — skill 自动发现的命令入口
-- **5 条可移植设计原则** — 关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律
+- **6 条可移植设计原则** — 关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律 / 克制
 - **7 种项目类型变体** — Web / CLI / Library / Service / Monorepo / Mobile / Data
 - **12 个模板 + 2 份样例** — 拿去就能填
 
@@ -101,7 +101,7 @@ cd ~/projects/your-project
 - [docs/design.md](./docs/design.md) — 完整设计文档（理念、架构、决策日志）
 - [docs/plan.md](./docs/plan.md) — 实现计划（17 task）
 - [skills/bootstrap-claude-docs/SKILL.md](./skills/bootstrap-claude-docs/SKILL.md) — skill 主流程
-- [skills/bootstrap-claude-docs/references/design-philosophy.md](./skills/bootstrap-claude-docs/references/design-philosophy.md) — 5 大设计哲学详述
+- [skills/bootstrap-claude-docs/references/design-philosophy.md](./skills/bootstrap-claude-docs/references/design-philosophy.md) — 6 大设计哲学详述
 - [skills/bootstrap-claude-docs/references/project-type-variants.md](./skills/bootstrap-claude-docs/references/project-type-variants.md) — 7 种项目类型适配
 - [skills/bootstrap-claude-docs/references/sample-CLAUDE.md](./skills/bootstrap-claude-docs/references/sample-CLAUDE.md) / [sample-ARCHITECTURE.md](./skills/bootstrap-claude-docs/references/sample-ARCHITECTURE.md) — 去标识化样例
 
