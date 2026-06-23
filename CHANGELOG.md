@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0] - 2026-06-23
+
+### Changed
+
+吸收 [mattpocock/skills](https://github.com/mattpocock/skills) 文档管理实践（调研其全部 ~60 个 skill 后提炼）：
+
+- **ADR 极简化**：`adr.tmpl` 重写为「标题 + 1-3 句话」，状态/候选/影响降为可选段——修正与「克制」原则的矛盾
+- **durability 规则**：ADR 禁写文件路径/行号/代码片段（会过时），写理由/契约——Matt 语料里重复最多的一条
+- **ADR 三段判据**：补全为「难逆转 + 没上下文会困惑 + 真有取舍」（三者同时成立才记）+ what-qualifies 分类
+- **lazy 创建**：greenfield 只建核心集（CLAUDE/ARCHITECTURE/AGENTS/decisions/exec-plans + maintain skill）；glossary/insights/research 首次有内容才建，不预建空目录
+- **exec-plan 增强**（借 decision-mapping）：加 `Blocked by` 依赖 DAG + 「链接不复制、保持紧凑」纪律
+
+### Added
+
+- **新增 `templates/glossary.tmpl`**：项目术语表层（`术语: 定义 + _Avoid_: 同义词`），统一黑话、命名一致、AI 导航更准；lazy 创建，绑定代码/决策而非对话刮取
+
 ## [0.2.0] - 2026-05-29
 
 ### Changed

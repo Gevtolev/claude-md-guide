@@ -12,9 +12,11 @@ bootstrap-claude-docs 的可移植原则。每条都附「做什么 / 反例 / �
 
 **怎么落到模板**：`CLAUDE.md.tmpl` 严禁出现"目录结构 / 数据库 schema / API 路由表"段落；这些段落只在 `ARCHITECTURE.md.tmpl`。
 
+**附 · 术语层**：项目的"领域语言"自成一层——`docs/glossary.md`（`glossary.tmpl`），用 `术语: 一句定义 + _Avoid_: 禁用同义词` 统一黑话，让命名一致、AI 导航更准。它是**术语表，仅此而已**（不写实现、不当 spec）。可选 + lazy：有领域术语才建。⚠️ 注意绑定**代码 / 决策**而非"从某次对话刮取"——后者会与代码漂移（这是同类做法常见的坑）。
+
 ## 2. 决策追溯独立（Independent Decision Trail）
 
-**做什么**：关键架构与产品决策用 ADR（Architecture Decision Record）形式记录在 `docs/decisions/`，每份决策一个文件，含 `Status / Context / Decision / Consequences / Related` 标准结构。新决策按时间追加，不修改旧 ADR；推翻时新增 `Superseded by D##`。
+**做什么**：关键架构与产品决策用轻量 ADR（Architecture Decision Record）记录在 `docs/decisions/`，每份一个文件。**默认就是标题 + 1-3 句话**（背景 / 决定 / 为什么），价值在于记录"做了决定"和"为什么"，段落（状态 / 候选方案 / 影响）按需才加。新决策按时间追加，不修改旧 ADR；推翻时新增 `Superseded by D##`。判据：难逆转 + 没上下文会困惑 + 真有取舍，三者同时成立才记。**durability**：写理由 / 契约，不写文件路径 / 行号 / 代码（会过时）。
 
 **反例**：决策散落在 commit message / wiki / chat 记录 / handover 文档里 → 半年后没人能完整还原"为什么是这样而不是另一种"，提需求的人换了，决策被反复推翻。
 
@@ -24,7 +26,7 @@ bootstrap-claude-docs 的可移植原则。每条都附「做什么 / 反例 / �
 - ADR 标准格式让新人能 5 分钟读完一份决策，比读完整 PRD 快得多
 - 监管合规场景（金融 / 医疗）要求决策可审计——独立目录 + 不可变历史 + 电子签名是标准做法
 
-**怎么落到模板**：`docs/decisions/` 是必选目录；模板含 `docs-decisions-README.tmpl`（决策矩阵索引 + 写作规范）+ `adr.tmpl`（单份 ADR 标准格式）。
+**怎么落到模板**：`docs/decisions/` 是必选目录；模板含 `docs-decisions-README.tmpl`（决策矩阵索引 + 三段判据 + what-qualifies 分类 + durability 规则）+ `adr.tmpl`（极简单份 ADR，段落可选）。
 
 ## 3. 索引（Index，按需维护）
 
@@ -58,13 +60,13 @@ bootstrap-claude-docs 的可移植原则。每条都附「做什么 / 反例 / �
 
 ## 6. 克制：文档为回查服务，不为完整性（Restraint）
 
-**做什么**：只记「将来真会回头查」的东西——难逆转 + 非显而易见的决策。能从代码 / git / ARCHITECTURE 推出来的不记；ADR 能写短就写短（20–30 行）；可选目录（insights / research / exec-plans）空着也没关系，别为填而填。
+**做什么**：只记「将来真会回头查」的东西——难逆转 + 没上下文会困惑 + 真有取舍的决策。能从代码 / git / ARCHITECTURE 推出来的不记；ADR 默认就是标题 + 1-3 句话；可选目录（glossary / insights / research）**不预建，有内容才建**（lazy），空着没关系，别为填而填。
 
-**反例**：为「目录完整」给每个改动补 insights、维护永远空着的 research/、AGENTS.md 逐条镜像 CLAUDE.md、每次提交跑全量文档同步 → 维护成本超过文档价值，纯烧 token。
+**反例**：为「目录完整」给每个改动补 insights、预建永远空着的 research/、每次提交跑全量文档同步 → 维护成本超过文档价值，纯烧 token。
 
 **为什么**：文档的收益是「将来省下重新搞清楚的时间」。一条将来没人会查的记录，写它和维护它都是净亏损。文档体系是决策追溯的工具，不是要被填满的表格。
 
-**怎么落到模板**：`adr.tmpl` 提示「可写短」；自查清单与生成的维护 skill 都默认「只记难逆转 + 非显而易见」；`AGENTS.md.tmpl` 只做指针不做镜像。可选目录的「按首次需要才建」是后续可选增强（见 `SKILL.md` Phase 2）。
+**怎么落到模板**：`adr.tmpl` 默认极简（标题 + 1-3 句，段落可选）；自查清单与生成的维护 skill 都默认「只记难逆转 + 没上下文会困惑 + 真有取舍」；greenfield 只建核心集，glossary / insights / research 按首次需要才建（lazy，见 `SKILL.md` Phase 2 + `phase-2-checklist.md`）。
 
 ---
 

@@ -38,32 +38,33 @@ description: |
 完整自检见 `references/phase-1-checklist.md`。
 
 **Phase 2 — 骨架生成**（写到 `.claude-docs-staging/`）
-按项目类型选模板（见 `references/project-type-variants.md`），实例化 `templates/*.tmpl`：
-顶层 `CLAUDE.md`/`ARCHITECTURE.md`/`AGENTS.md`、4 个 `docs/<dir>/README.md`（decisions / insights / research / exec-plans）、2 个 exec-plan 辅助、ADR 模板。
-可选：生成 `.ignore`（ripgrep 格式，排除入了 git 但 Claude 不需要扫描的文件）。Monorepo 另为每个子包生成 `CLAUDE.md`。
-✋ 检查点 2：用户审阅 staging → 确认后原子 mv 到正式位置。
-完整自检见 `references/phase-2-checklist.md`。
+按项目类型选模板（见 `references/project-type-variants.md`），只建**核心集**：
+`CLAUDE.md`/`ARCHITECTURE.md`/`AGENTS.md`、`docs/decisions/`（README + ADR 模板）、`docs/exec-plans/`（README + plan 模板 + tech-debt）。
+**lazy**：`docs/glossary.md` / `insights/` / `research/` 不预建，首次有内容才创建（空目录是净亏损）。
+可选：`.ignore`（ripgrep 格式）。Monorepo 另为每个子包生成 `CLAUDE.md`。
+✋ 检查点 2：用户审阅 staging → 确认后原子 mv 到正式位置。完整自检见 `references/phase-2-checklist.md`。
 
 **Phase 2.5 — 生成项目级维护 skill**（核心创新）
 实例化 `templates/maintain-claude-docs-SKILL.md.tmpl` → `.claude/skills/maintain-claude-docs/SKILL.md`。
-description 按类型定制（见 `references/project-type-variants.md`），body 含 6 项清单，
-让后续改动自动维护文档。
+description 按类型定制（见 `references/project-type-variants.md`），body 含按需文档体检清单，
+让阶段性 / 显式触发时维护文档（非每改动自动跑）。
 
 **Phase 3 — 深度填充与验证**
-对用户标注的章节读源码深推；ARCHITECTURE 真实化；双链与索引校验。
+对用户标注的章节读源码深推；ARCHITECTURE 真实化；索引与 decisions 矩阵校验。
 输出「日常如何维护这套体系」卡片。
 完整自检见 `references/phase-3-checklist.md`。
 
 ## Quick Reference
 
-4 类 docs 子目录，目的互斥不重叠：
+docs 子目录，目的互斥不重叠（★=核心集，其余 lazy 按需建）：
 
 | 目录 | 回答的问题 |
 |------|-----------|
-| `decisions/` | **为什么是这样而不是另一种**（ADR 决策追溯） |
+| ★ `decisions/` | **为什么是这样而不是另一种**（ADR 决策追溯） |
+| ★ `exec-plans/` | **现在在做什么 / 进度**（active / completed） |
+| `glossary.md` | **这个词指什么**（统一项目黑话；术语表，仅此而已） |
 | `insights/` | **为什么做这个产品**（用户视角 / 商业理由 / 设计动机） |
 | `research/` | **有什么备选 / 可行性如何**（调研，可能不落地） |
-| `exec-plans/` | **现在在做什么 / 进度**（active / completed） |
 
 回答"项目现在长什么样"由顶层 `ARCHITECTURE.md` + 代码 docstring 承担，不再放 docs/。
 

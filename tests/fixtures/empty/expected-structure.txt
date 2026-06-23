@@ -1,40 +1,45 @@
-# 空目录跑 /bootstrap-docs（greenfield 路径）的期望产出
+# 空目录跑 /bootstrap-claude-docs（greenfield 路径）的期望产出
 
-## 期望创建的文件（10 个顶层 + 1 个项目级 skill = 11）
+## 期望创建的文件（核心集：7 个顶层 + 1 个项目级 skill = 8）
 
 CLAUDE.md
 ARCHITECTURE.md
 AGENTS.md
 docs/decisions/README.md
 docs/decisions/adr-template.md
-docs/insights/README.md
-docs/research/README.md
 docs/exec-plans/README.md
 docs/exec-plans/tech-debt-tracker.md
 docs/exec-plans/exec-plan-template.md
 .claude/skills/maintain-claude-docs/SKILL.md
 
+## 不应被预建（lazy，首次有内容才创建）
+
+docs/glossary.md          ← 有领域术语才建
+docs/insights/            ← 有产品思考才建
+docs/research/            ← 有调研才建
+
+空目录跑出来这三个**不应该存在**——这是 lazy 创建的核心验证点。
+
 ## 每个文件必含的关键标记
 
-- CLAUDE.md：包含 `## 改动自查` 和 `## 文档` 两节
+- CLAUDE.md：包含 `## 改动自查` 和 `## 文档` 两节；改动自查 ≤4 核心项 + 一行软提示
 - ARCHITECTURE.md：包含 `## 目录结构` 和 `## 技术栈` 两节
 - AGENTS.md：包含 `{{COPY_OF_CLAUDE_MD}}` 或等效内容
-- docs/decisions/README.md：标题含 "Decisions" 或 "决策"，含决策矩阵表头
-- docs/insights/README.md：标题含 "产品思考" 或 "Insights"
-- docs/research/README.md：标题含 "Research"
+- docs/decisions/README.md：标题含 "Decisions" 或 "决策"；含决策矩阵表头；含三段判据（难逆转 / 没上下文会困惑 / 真有取舍）+ durability 规则（不写文件路径/行号/代码）
+- docs/decisions/adr-template.md：极简——标题 + 1-3 句，段落（状态/候选/影响）为可选
 - docs/exec-plans/README.md：出现 "active"、"completed"、"tech-debt-tracker" 三个关键词
 - .claude/skills/maintain-claude-docs/SKILL.md：
   - frontmatter 含 `name: maintain-claude-docs`
-  - description 以 `Use when` 起手
-  - body 含至少 6 项编号检查清单
+  - description 含按需 / 阶段性触发（明示「非每改动」）
+  - body 含文档体检清单（含 ADR / glossary 项）
 
 ## 手动验证流程
 
-1. 把 skill 装到 `~/.claude/skills/bootstrap-claude-docs` + `~/.claude/commands/bootstrap-docs.md`
+1. 把 skill 装到 `~/.claude/skills/bootstrap-claude-docs`
 2. `cd tests/fixtures/empty`
-3. 在新 Claude Code 会话里跑 `/bootstrap-docs`
+3. 在新 Claude Code 会话里跑 `/bootstrap-claude-docs`
 4. 按 Phase 0/1/2/3 检查点回答
-5. 跑 `ls -R` 对照上方清单
+5. 跑 `ls -R` 对照上方核心集清单；确认 `docs/glossary.md` / `docs/insights/` / `docs/research/` **未**被创建
 6. 跑 `grep -l '改动自查' CLAUDE.md && grep -l '目录结构' ARCHITECTURE.md && grep -l 'maintain-claude-docs' .claude/skills/maintain-claude-docs/SKILL.md`
 
 ## 清理

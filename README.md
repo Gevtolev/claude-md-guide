@@ -9,31 +9,32 @@
 - **`/bootstrap-claude-docs` slash command** — skill 自动发现的命令入口
 - **6 条可移植设计原则** — 关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律 / 克制
 - **7 种项目类型变体** — Web / CLI / Library / Service / Monorepo / Mobile / Data
-- **12 个模板 + 2 份样例** — 拿去就能填
+- **14 个模板 + 2 份样例** — 拿去就能填
 
 ## 产出什么
 
-在目标项目里生成：
+在目标项目里生成。**核心集**一次建好，可选层 lazy（有内容才建）：
 
 ```
 项目根/
-├── CLAUDE.md                                   # 规则、流程、改动自查
+├── CLAUDE.md                                   # 规则、流程、改动自查（≤4 核心项）
 ├── ARCHITECTURE.md                             # 结构、数据流、技术栈
 ├── AGENTS.md                                   # CLAUDE.md 的镜像（给非 Claude 的 AI）
 ├── docs/
 │   ├── decisions/README.md                     # 架构决策记录索引（ADR）
-│   ├── decisions/adr-template.md               # ADR 模板
-│   ├── insights/README.md                      # 产品思考索引
-│   ├── research/README.md                      # 调研索引
-│   └── exec-plans/
-│       ├── README.md                           # 执行计划索引
-│       ├── tech-debt-tracker.md                # 技术债务追踪
-│       └── exec-plan-template.md               # 执行计划模板
+│   ├── decisions/adr-template.md               # 极简 ADR 模板（标题 + 1-3 句）
+│   ├── exec-plans/
+│   │   ├── README.md                           # 执行计划索引
+│   │   ├── tech-debt-tracker.md                # 技术债务追踪
+│   │   └── exec-plan-template.md               # 执行计划模板（含 Blocked by 依赖）
+│   ├── glossary.md          （lazy）           # 项目术语表（统一黑话）
+│   ├── insights/            （lazy）           # 产品思考
+│   └── research/            （lazy）           # 调研
 └── .claude/skills/maintain-claude-docs/
-    └── SKILL.md                                # 项目级维护 skill —— 每次相关改动自动提醒同步文档
+    └── SKILL.md                                # 项目级维护 skill —— 按需 / 阶段性文档体检
 ```
 
-最后那个「项目级维护 skill」是核心创新：CLAUDE.md 是静态规则文件，在长对话里偶尔被埋；项目级 skill 有 description 自动触发机制，形成静动双份冗余。
+最后那个「项目级维护 skill」是核心创新：CLAUDE.md 是静态规则文件，在长对话里偶尔被埋；项目级 skill 有 description 触发机制，形成静动双份冗余——按需 / 阶段性触发（非每次改动）。
 
 ## 安装
 

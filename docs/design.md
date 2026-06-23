@@ -62,9 +62,10 @@ claude-md-guide/
 │           ├── docs-insights-README.tmpl
 │           ├── docs-research-README.tmpl
 │           ├── docs-exec-plans-README.tmpl
-│           ├── adr.tmpl
+│           ├── adr.tmpl                        # 极简 ADR（标题 + 1-3 句，段落可选）
+│           ├── glossary.tmpl                   # 项目术语表（lazy）
 │           ├── tech-debt-tracker.tmpl
-│           ├── exec-plan.tmpl
+│           ├── exec-plan.tmpl                  # 含 Blocked by 依赖 + 链接不复制
 │           ├── ignore.tmpl
 │           ├── sub-package-CLAUDE.md.tmpl
 │           └── maintain-claude-docs-SKILL.md.tmpl   # 目标项目里的维护 skill 模板
@@ -196,13 +197,15 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 
 ### 4.3 Phase 2：骨架生成（先写到 staging，确认后落盘）
 
+只建**核心集**；glossary / insights / research 为 lazy（首次有内容才建，见原则 6）。
+
 | 步骤 | 产出 |
 |------|------|
 | 2.1 选模板变体 | 根据 Phase 1 类型选 `templates/<variant>.tmpl` |
-| 2.2 顶层文件 | CLAUDE.md / ARCHITECTURE.md / AGENTS.md（CLAUDE.md 必含「改动自查清单」+「文档索引」+「工作流纪律」段落） |
-| 2.3 docs 索引 | docs/{decisions, insights, research, exec-plans}/README.md |
-| 2.4 模板辅助文件 | docs/exec-plans/tech-debt-tracker.md（空表）、docs/exec-plans/exec-plan-template.md |
-| 2.5 ★ 项目级维护 skill | 在**目标项目**里生成 `.claude/skills/maintain-claude-docs/SKILL.md`（与本 skill 的源仓库无关），description 适配项目类型 |
+| 2.2 顶层文件 | CLAUDE.md / ARCHITECTURE.md / AGENTS.md（CLAUDE.md 必含「改动自查」≤4 核心项 +「文档索引」+「工作流」段落） |
+| 2.3 核心 docs | docs/decisions/（README + adr-template）、docs/exec-plans/（README + tech-debt-tracker + exec-plan-template） |
+| 2.4 lazy 目录 | docs/glossary.md / insights/ / research/ **不预建**，首次有内容才创建 |
+| 2.5 ★ 项目级维护 skill | 在**目标项目**里生成 `.claude/skills/maintain-claude-docs/SKILL.md`（与本 skill 的源仓库无关），description 适配项目类型，按需 / 阶段性触发 |
 
 > **Staging 时序**：步骤 2.1–2.5 全部先写到目标项目下的 `.claude-docs-staging/` 临时目录，**不直接落盘**到最终位置。
 
@@ -221,8 +224,8 @@ Phase 0 → Phase 1 → Phase 2 → Phase 3
 |------|------|
 | 3.1 深推断 | 对用户在检查点 2 标注的章节读源码、grep、推数据流 |
 | 3.2 ARCHITECTURE 真实化 | 「目录结构 / 数据流 / 技术栈」用扫描数据填充，不再占位 |
-| 3.3 索引校验 | decisions/README 决策矩阵与文件对齐；各目录 README 索引与实际文件对齐 |
-| 3.4 索引校验 | 每个 docs/<dir>/README.md 与目录内文件对齐 |
+| 3.3 索引校验 | decisions/README 决策矩阵与文件对齐；每个**已创建**的 docs/<dir>/README.md 与目录内文件对齐 |
+| 3.4 lazy 校验 | 未预建任何空的 lazy 目录（glossary / insights / research 无内容则不应存在）；CLAUDE.md 文档索引里 lazy 项已标「可选」 |
 | 3.5 输出使用指南 | 终端打印「日常如何维护这套体系」简短卡片 |
 
 > **若用户在检查点 2 没标任何章节**：跳过 3.1，仍执行 3.2–3.5（保留骨架的占位符 + TODO，后续靠 maintain-claude-docs 填）。
