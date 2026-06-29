@@ -100,4 +100,4 @@ docs 子目录，目的互斥不重叠（★=核心集，其余 lazy 按需建�
 
 ## Design Philosophy
 
-6 大可移植原则（关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律 / 克制）详见 `references/design-philosophy.md`。
+7 大可移植原则（关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律 / 克制 / 防漂移闭环）详见 `references/design-philosophy.md`。
