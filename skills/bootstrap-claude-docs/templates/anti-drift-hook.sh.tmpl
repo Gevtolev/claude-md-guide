@@ -66,6 +66,7 @@ REPAIR_PROMPT="根据漂移报告修复文档。规则：
 - 只修改 action=auto 的文件；action=notify 的不要改，最后列出提醒。
 - 改动保留在工作区，**不要** git add / git commit。
 漂移报告：${DRIFT}"
+# 模型 stdout（修复摘要 / notify 提醒）→ 重定向到 stderr 给开发者看；模型自身 stderr → 丢弃。顺序勿动。
 printf '%s' "${REPAIR_PROMPT}" | claude -p --model "${REPAIR_MODEL}" --permission-mode acceptEdits >&2 2>/dev/null || true
 
 echo "[anti-drift] 已尝试自动修复 auto 项（改动在工作区，请 review 后随下次提交带上）；notify 项见上。push 放行。" >&2

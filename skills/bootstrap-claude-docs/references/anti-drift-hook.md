@@ -114,7 +114,7 @@ git config core.hooksPath .githooks
 | 场景 | 行为 | 依据（脚本实际逻辑） |
 |---|---|---|
 | **无 git**（非 git 仓库） | 不生成 hook；防漂移退回 maintain skill 的手动 verify 步骤 | bootstrap Phase 2.6 检测 `git rev-parse` 失败则跳过生成 |
-| **无 claude CLI**（`claude` 不在 PATH） | hook 打印提示 `[anti-drift] claude CLI 不在 PATH，跳过 LLM 漂移检测。` 后 exit 0 放行 | 脚本第 11–14 行 `command -v claude` 检查 |
+| **无 claude CLI**（`claude` 不在 PATH） | hook 打印提示 `[anti-drift] claude CLI 不在 PATH，跳过 LLM 漂移检测。` 后 exit 0 放行 | 脚本开头 `command -v claude` 检查（不在 PATH 即提示并 exit 0） |
 | **离线 / 网络不通** | `claude -p` 返回非零或超时 → `DRIFT` 被设为 `[]`（fallback）→ 无漂移分支 → exit 0 放行 | `... 2>/dev/null \|\| echo '[]'` |
 | **LLM 失败**（任意阶段报错） | 同上；repair 阶段失败同样 exit 0 放行，并打印警告 | 阶段 B `\|\| true` 兜底 + 最终 exit 0 |
 
