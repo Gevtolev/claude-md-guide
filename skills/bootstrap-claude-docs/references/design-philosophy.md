@@ -68,6 +68,18 @@ bootstrap-claude-docs 的可移植原则。每条都附「做什么 / 反例 / �
 
 **怎么落到模板**：`adr.tmpl` 默认极简（标题 + 1-3 句，段落可选）；自查清单与生成的维护 skill 都默认「只记难逆转 + 没上下文会困惑 + 真有取舍」；greenfield 只建核心集，glossary / insights / research 按首次需要才建（lazy，见 `SKILL.md` Phase 2 + `phase-2-checklist.md`）。
 
+## 7. 防漂移闭环（Anti-Drift Loop）
+
+**做什么**：给有 git 的项目生成「真相源映射表」（`docs/source-of-truth-map.md`：「代码动了 X → 该查文档 Y，处置 auto / notify」）+ 一个 pre-push 防漂移 hook。提交 / 推送时，hook 先用低档模型（haiku）对照映射表检测 diff 有无漂移；**仅当检测到漂移**才开 subagent（sonnet）修「可自动改」的文档（README 索引 / ARCHITECTURE 描述段 / glossary），改动**留工作区等 review**；对 ADR / PRD 类只提醒、不自动改；**任何分支都 `exit 0`，绝不阻断 push**。蓝图见 `references/anti-drift-hook.md`。
+
+**反例**：① 靠人自觉「记得改文档」→ 代码改了文档没跟上，漂移无人发现，直到某天文档是错的。② 反向过度——每次提交都让 LLM 全量比对、或一漂移就硬拦 push → 烧 token + 大家习惯性 `--no-verify`，回到没人信任的老路。
+
+**为什么**：文档腐化的根因是「更新靠自觉、漂移无兜底」。把检测绑在「提交」这个确定节点、用便宜模型自动跑，既补上兜底，又不必靠人记得。
+
+**与第 5 / 6 条（克制）的关系**：不冲突——**触发点 = 提交**（非每次改动，无漂移直接放行，几乎零成本）；**执行者 = 低档模型**（不占用人的注意力）；**默认软提醒**（改动留工作区、绝不硬拦 push）。它只兜「机械漂移」，把「该不该记 ADR、季度审计、结构重组」这类判断仍留给人主导的 maintain skill。所以它是克制原则的**自动化延伸**，不是「为完整性而文档」的回潮。
+
+**怎么落到模板**：`SKILL.md` Phase 2.6 检测 git / claude CLI 后生成映射表 + 安装 hook（`templates/source-of-truth-map.tmpl` + `templates/anti-drift-hook.sh.tmpl`；默认 `.git/hooks/pre-push`，多人用 `core.hooksPath .githooks`）；无 git / 无 claude 则降级，防漂移落回 `maintain-claude-docs` 的手动 reconcile。生成的 maintain skill 含「与防漂移 hook 的分工」节。
+
 ---
 
 ## 关于已废弃的"双视角"原则

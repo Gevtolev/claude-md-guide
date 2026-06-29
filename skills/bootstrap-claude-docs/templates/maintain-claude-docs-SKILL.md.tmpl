@@ -20,6 +20,10 @@ description: |
 
 **不要**在每次普通改动后都跑——日常改动只走 CLAUDE.md 的精简改动自查即可。
 
+## 与防漂移 hook 的分工
+
+本项目（若 git 可用）有一个 pre-push 防漂移 hook 兜底「机械漂移」——提交时低档模型对照 `docs/source-of-truth-map.md` 检测，自动修 README 索引 / ARCHITECTURE 描述段 / glossary 这类可机械同步的文档。**hook 管「自动 / 提交时 / 机械漂移」；本 skill 管「按需 / 人主导 / 深度判断」**——该不该记 ADR、产品级"为什么"、季度审计、结构重组，这些 hook 够不到的才是文档体检的重点。两者互补：hook 没兜住或够不到的，体检时补。
+
 ## When to Skip
 
 - 仅修改注释、格式化、变量名
@@ -34,7 +38,7 @@ description: |
 2. **是否构成新功能或新模块？** → 顶层 `ARCHITECTURE.md` 对应章节是否需要更新？模块级深入是否在代码 docstring 写清？
 3. **（可选）有 ADR 的 Context 段装不下的产品级"为什么"？** → 才考虑在 `docs/insights/` 写一份；不强制。
    **（可选）出现了固定下来的领域术语/项目黑话？** → 在 `docs/glossary.md` 记一条（无则首次创建）；定义"是什么"、一句话、列 `_Avoid_` 同义词。
-4. **是否增删了文档文件？** → 对应 `docs/<dir>/README.md` 索引同步了吗？
+4. **是否增删了文档文件？** → 对应 `docs/<dir>/README.md` 索引同步了吗？（日常索引漂移由防漂移 hook 兜底；体检时复查 hook 够不到的：新目录、跨目录重组。）
 5. **是否发现了技术债务？** → 已添加到 `docs/exec-plans/tech-debt-tracker.md` 了吗？
 6. **是否在做中大型功能？** → 已起 `docs/exec-plans/active/<topic>.md` 了吗？
 7. **是否完成了 exec-plan？** → 已移到 `docs/exec-plans/completed/` 了吗？
