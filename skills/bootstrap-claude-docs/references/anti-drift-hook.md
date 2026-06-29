@@ -52,7 +52,7 @@
 <git diff 内容>
 ```
 
-- 无漂移（输出不含 `"action"` 键）→ 直接放行，不进入阶段 B。
+- 无漂移（输出不含字符串 `"action"`）→ 直接放行，不进入阶段 B。
 - 有漂移 → 把 JSON 打印到 stderr 并进入阶段 B。
 
 **阶段 B — 修复 prompt（发给 `${ANTI_DRIFT_REPAIR_MODEL}`，默认 `claude-sonnet-4-6`）**
@@ -64,7 +64,8 @@
 漂移报告：<阶段 A 的 JSON 输出>
 ```
 
-- 用 `claude -p --model <model> --permission-mode acceptEdits` 调用，确保 LLM 可写文件。
+**调用方式**：`claude -p --model <model> --permission-mode acceptEdits`，确保 LLM 可写文件。
+
 - 无论 repair 成功与否，hook 最终 exit 0 放行。
 
 ---
@@ -83,24 +84,24 @@
 
 ## 安装方式
 
-### 单人项目（写入 `.git/hooks/`，不纳入版本控制）
+bootstrap Phase 2.6 渲染模板后**直接写到以下位置**，不存在 `docs/generated/...` 这样的中间产物。
+
+### 单人项目（默认：写入 `.git/hooks/`，不纳入版本控制）
 
 ```bash
-# bootstrap Phase 2.6 生成 hook 脚本后，安装到 .git/hooks/
-cp docs/generated/anti-drift-hook.sh .git/hooks/pre-push
-chmod +x .git/hooks/pre-push
+# bootstrap Phase 2.6 渲染模板后直接写到此路径并 chmod +x
+# 默认安装位置：
+.git/hooks/pre-push   # chmod +x 已由 bootstrap 完成
 ```
 
 ### 多人 / 团队项目（推荐：纳入版本控制）
 
 ```bash
-# 1. 把脚本放进版本控制的目录
-mkdir -p .githooks
-cp docs/generated/anti-drift-hook.sh .githooks/pre-push
-chmod +x .githooks/pre-push
-git add .githooks/pre-push
+# bootstrap Phase 2.6 渲染模板后直接写到此路径并 chmod +x
+# 共享安装位置：
+.githooks/pre-push    # chmod +x 已由 bootstrap 完成
 
-# 2. 让 git 使用该目录（每位开发者克隆后需跑一次）
+# 让 git 使用该目录（每位开发者克隆后需跑一次）
 git config core.hooksPath .githooks
 ```
 
