@@ -1,0 +1,18 @@
+# 真相源映射表 — {{PROJECT_NAME}}
+
+> 一份两用：① 给人——同一事实只在「权威处」写，别处只**引用**不复述；② 给防漂移 hook——「代码动了 X → 该查文档 Y」的检测规则。
+> `处置` 取值：`auto`（hook 可自动改，限机械低风险文档）/ `notify`（只提醒，人来改——决策/规格类）。
+
+| 代码路径 / 模式 | 应同步的文档（权威处） | 处置 |
+|---|---|---|
+{{SOURCE_OF_TRUTH_ROWS}}
+<!-- TODO bootstrap 按 Phase 1 扫描结果填充。每行一条规则，示例：
+| `src/types/**`（字段增删） | 同步处的字段定义 + 字段文档 | notify |
+| `src/api/**`、`app/api/**` | ARCHITECTURE.md 的「API / 错误码」表 | auto |
+| 新增/删除 `docs/**/*.md` | 对应 `docs/<dir>/README.md` 索引 | auto |
+| 核心计算/公式模块 | PRD 验收用例 + 对应 unit test | notify |
+-->
+
+## 红线
+- `docs/decisions/`（ADR）、PRD/规格 → 永远 `notify`，hook 不自动改（避免 LLM 改错决策语义）。
+- 运行时必须各写一份、消不掉的重复（如 schema↔types↔state）→ 列为 `notify`，并用**测试**锁一致，而非靠 hook。
