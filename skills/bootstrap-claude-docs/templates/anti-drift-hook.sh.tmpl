@@ -27,13 +27,13 @@ fi
 DETECT_PROMPT="你是文档漂移检测器。对照真相源映射表读 git diff，只输出命中的漂移点。
 输出 JSON 数组，每项 {\"file\",\"rule\",\"action\"}，action 取映射表里的 auto|notify。无漂移输出 []。
 === 映射表 ===
-$(cat "${MAP_FILE}" 2>/dev/null)
+$(cat "${MAP_FILE}" 2>/dev/null || true)
 === diff ===
 ${DIFF}"
 DRIFT="$(printf '%s' "${DETECT_PROMPT}" | claude -p --model "${DETECT_MODEL}" 2>/dev/null || echo '[]')"
 
 # 无漂移：放行
-if ! printf '%s' "${DRIFT}" | grep -q '"file"'; then
+if ! printf '%s' "${DRIFT}" | grep -q '"action"'; then
   exit 0
 fi
 
