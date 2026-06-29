@@ -49,6 +49,12 @@ description: |
 description 按类型定制（见 `references/project-type-variants.md`），body 含按需文档体检清单，
 让阶段性 / 显式触发时维护文档（非每改动自动跑）。
 
+**Phase 2.6 — 生成项目级防漂移 hook（防漂移闭环）**
+检测 `git` 与 `claude` CLI：
+- 有 git → 用 `templates/source-of-truth-map.tmpl` 生成 `docs/source-of-truth-map.md`（按 Phase 1 扫描填规则行），并用 `templates/anti-drift-hook.sh.tmpl` 安装 pre-push hook（默认 `.git/hooks/pre-push`，多人项目用 `core.hooksPath`）。
+- 无 git → 跳过 hook，把防漂移落回 maintain skill 的手动 reconcile 步骤。
+完整蓝图（两阶段 prompt / 挂点 / 安装 / 降级）见 `references/anti-drift-hook.md`。✋ 检查点 2.6：把生成的映射表规则给用户确认（哪些 `auto` 哪些 `notify`）。
+
 **Phase 3 — 深度填充与验证**
 对用户标注的章节读源码深推；ARCHITECTURE 真实化；索引与 decisions 矩阵校验。
 输出「日常如何维护这套体系」卡片。
@@ -65,6 +71,7 @@ docs 子目录，目的互斥不重叠（★=核心集，其余 lazy 按需建�
 | `glossary.md` | **这个词指什么**（统一项目黑话；术语表，仅此而已） |
 | `insights/` | **为什么做这个产品**（用户视角 / 商业理由 / 设计动机） |
 | `research/` | **有什么备选 / 可行性如何**（调研，可能不落地） |
+| `source-of-truth-map.md` | **哪些文件是真相源、如何同步**（防漂移映射表，Phase 2.6 生成） |
 
 回答"项目现在长什么样"由顶层 `ARCHITECTURE.md` + 代码 docstring 承担，不再放 docs/。
 
@@ -88,6 +95,7 @@ docs 子目录，目的互斥不重叠（★=核心集，其余 lazy 按需建�
 | 跳过检查点 | 三个检查点必须停下问用户 |
 | 把架构写进 CLAUDE.md | 关注点分离——架构进 ARCHITECTURE.md |
 | 忘了项目级维护 skill | Phase 2.5 必做；维护体系长期靠它 |
+| 忘了生成防漂移 hook/映射表 | Phase 2.6：有 git 就装 pre-push hook + 映射表，无 git 落回 maintain |
 | 直接写到 cwd | 必须先 staging，用户确认后 mv |
 
 ## Design Philosophy
