@@ -14,12 +14,33 @@ if ! command -v claude >/dev/null 2>&1; then
 fi
 
 # 收集将推送的 diff
-RANGE="$(git rev-parse --abbrev-ref --symbolic-full-name '@{push}' 2>/dev/null || true)"
-if [ -n "$RANGE" ]; then
-  DIFF="$(git diff "${RANGE}..HEAD" 2>/dev/null || true)"
+# 优先：pre-push 协议从 stdin 读「<local_ref> <local_sha> <remote_ref> <remote_sha>」取准确范围
+ZERO="0000000000000000000000000000000000000000"
+STDIN_DIFF=""
+while read -r _lref lsha _rref rsha; do
+  [ -z "${lsha:-}" ] && continue
+  [ "$lsha" = "$ZERO" ] && continue                       # 删除分支：无内容可查
+  if [ "${rsha:-$ZERO}" != "$ZERO" ] && git rev-parse --verify -q "${rsha}^{commit}" >/dev/null 2>&1; then
+    base="$rsha"                                           # 远端已有此分支：只看新增提交
+  else                                                     # 首推（远端无此分支）
+    base="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || true)"
+    [ -n "$base" ] || base="$(git rev-parse --verify -q origin/main >/dev/null 2>&1 && echo origin/main || true)"
+    [ -n "$base" ] || base="${lsha}^"                      # 无任何远端基线：退一步只看最新提交
+  fi
+  STDIN_DIFF="${STDIN_DIFF}$(git diff "${base}..${lsha}" 2>/dev/null || true)"
+done
+
+if [ -n "$STDIN_DIFF" ]; then
+  DIFF="$STDIN_DIFF"
 else
-  DEFAULT="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/main)"
-  DIFF="$(git diff "${DEFAULT}..HEAD" 2>/dev/null || git diff HEAD 2>/dev/null || true)"
+  # stdin 为空（手动调用 / 测试）→ 回退 @{push} / 默认分支启发式
+  RANGE="$(git rev-parse --abbrev-ref --symbolic-full-name '@{push}' 2>/dev/null || true)"
+  if [ -n "$RANGE" ]; then
+    DIFF="$(git diff "${RANGE}..HEAD" 2>/dev/null || true)"
+  else
+    DEFAULT="$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || echo origin/main)"
+    DIFF="$(git diff "${DEFAULT}..HEAD" 2>/dev/null || git diff HEAD 2>/dev/null || true)"
+  fi
 fi
 [ -z "${DIFF}" ] && exit 0
 
