@@ -7,7 +7,7 @@
 
 - **`bootstrap-claude-docs` skill** — 三阶段三检查点流程，把一个项目（空的 / 已有代码的 / 已有旧 CLAUDE.md 的）引导成一整套文档体系
 - **`/bootstrap-claude-docs` slash command** — skill 自动发现的命令入口
-- **6 条可移植设计原则** — 关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律 / 克制
+- **7 条可移植设计原则** — 关注点分离 / 决策追溯独立 / 自维护索引 / 计划驱动 / 自检纪律 / 克制 / 防漂移闭环
 - **7 种项目类型变体** — Web / CLI / Library / Service / Monorepo / Mobile / Data
 - **14 个模板 + 2 份样例** — 拿去就能填
 
@@ -29,9 +29,11 @@
 │   │   └── exec-plan-template.md               # 执行计划模板（含 Blocked by 依赖）
 │   ├── glossary.md          （lazy）           # 项目术语表（统一黑话）
 │   ├── insights/            （lazy）           # 产品思考
-│   └── research/            （lazy）           # 调研
-└── .claude/skills/maintain-claude-docs/
-    └── SKILL.md                                # 项目级维护 skill —— 按需 / 阶段性文档体检
+│   ├── research/            （lazy）           # 调研
+│   └── source-of-truth-map.md                 # 真相源映射表（防漂移用）
+├── .claude/skills/maintain-claude-docs/
+│   └── SKILL.md                                # 项目级维护 skill —— 按需 / 阶段性文档体检
+└── .git/hooks/pre-push                         # 防漂移 hook（Phase 2.6 生成）
 ```
 
 最后那个「项目级维护 skill」是核心创新：CLAUDE.md 是静态规则文件，在长对话里偶尔被埋；项目级 skill 有 description 触发机制，形成静动双份冗余——按需 / 阶段性触发（非每次改动）。
@@ -102,7 +104,7 @@ cd ~/projects/your-project
 - [docs/design.md](./docs/design.md) — 完整设计文档（理念、架构、决策日志）
 - [docs/plan.md](./docs/plan.md) — 实现计划（17 task）
 - [skills/bootstrap-claude-docs/SKILL.md](./skills/bootstrap-claude-docs/SKILL.md) — skill 主流程
-- [skills/bootstrap-claude-docs/references/design-philosophy.md](./skills/bootstrap-claude-docs/references/design-philosophy.md) — 6 大设计哲学详述
+- [skills/bootstrap-claude-docs/references/design-philosophy.md](./skills/bootstrap-claude-docs/references/design-philosophy.md) — 7 大设计哲学详述
 - [skills/bootstrap-claude-docs/references/project-type-variants.md](./skills/bootstrap-claude-docs/references/project-type-variants.md) — 7 种项目类型适配
 - [skills/bootstrap-claude-docs/references/sample-CLAUDE.md](./skills/bootstrap-claude-docs/references/sample-CLAUDE.md) / [sample-ARCHITECTURE.md](./skills/bootstrap-claude-docs/references/sample-ARCHITECTURE.md) — 去标识化样例
 

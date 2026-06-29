@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0] - 2026-06-29
+
+### Added
+
+- **防漂移闭环**：新增 Phase 2.6，按项目生成真相源映射表（`source-of-truth-map.tmpl`）+ pre-push 防漂移 hook（`anti-drift-hook.sh.tmpl`，两阶段：haiku 检测 / sonnet 修复，自动改机械文档、ADR/PRD 只提醒、改动留工作区不 commit）。蓝图见 `references/anti-drift-hook.md`。
+- 设计哲学第 7 条「防漂移闭环」；maintain skill 增「与 hook 分工」节。
+
+### Changed
+
+- README 原则数 6 → 7；maintain checklist 索引项改为「hook 兜底」。
+
 ## [0.3.0] - 2026-06-23
 
 ### Changed

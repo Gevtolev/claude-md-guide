@@ -34,6 +34,9 @@
 ### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
 `This is a web app — focus the doc audit on route / API / page / DB-schema changes and the front/back boundary.`
 
+### 防漂移映射表聚焦（填入 `docs/source-of-truth-map.md`）
+API 路由、DB schema、前后端 API 契约——这三类变更最易在代码里静默漂移，优先纳入真相源映射表。
+
 ---
 
 ## 2. CLI 工具
@@ -54,6 +57,9 @@
 ### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
 `This is a CLI tool — focus the doc audit on command / flag / config-option changes.`
 
+### 防漂移映射表聚焦（填入 `docs/source-of-truth-map.md`）
+命令树（新增/废弃命令、flag 重命名）和 IO 协议（exit code / stdout 格式）——CLI 行为契约是真相源，入映射表。
+
 ---
 
 ## 3. 库 / SDK
@@ -73,6 +79,9 @@
 
 ### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
 `This is a library/SDK — focus the doc audit on public API surface, exports, and extension points (note SemVer impact).`
+
+### 防漂移映射表聚焦（填入 `docs/source-of-truth-map.md`）
+公共 API 表面（导出符号 + 稳定性等级）是库的生命线——SemVer 破坏性变更最易被遗漏，优先入映射表。
 
 ---
 
@@ -95,6 +104,9 @@
 
 ### maintain-claude-docs 审计聚焦（填入 description；按需触发，非每改动）
 `This is a backend service — focus the doc audit on endpoints, queue contracts, and service boundaries.`
+
+### 防漂移映射表聚焦（填入 `docs/source-of-truth-map.md`）
+服务边界（endpoints / gRPC methods / 队列 topic）和 SLO 约定——跨团队契约是服务真相源的核心。
 
 ---
 
